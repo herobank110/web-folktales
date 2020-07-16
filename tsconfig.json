@@ -2,10 +2,11 @@
     "compilerOptions": {
         "target": "es6",
         "moduleResolution": "node",
-        "outDir": "./public/",
-        "baseUrl": "./src",
+        "outDir": "public",
+        "baseUrl": "src",
         "paths": {
-            "/lib/*": [ "../public/lib/*" ]
+            "/lib": [ "../public/lib" ],
+            "/lib/*.js": [ "../public/lib/*.d.ts" ]
         }
     },
     "include": [

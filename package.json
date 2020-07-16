@@ -4,7 +4,7 @@
   "description": "Web game for folktales",
   "main": "index.js",
   "scripts": {
-    "start": "cp node_modules\\factorygame public\\lib\\factorygame -r && npx tsc"
+    "start": "pwsh ./scripts/folktales_start.ps1"
   },
   "repository": {
     "type": "git",
