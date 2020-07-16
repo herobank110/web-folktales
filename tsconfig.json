@@ -1,0 +1,16 @@
+{
+    "compilerOptions": {
+        "target": "es6",
+        "moduleResolution": "node",
+        "outDir": "./public/",
+        "baseUrl": "./src",
+        "paths": {
+            "/lib/*": [ "../public/lib/*" ]
+        }
+    },
+    "include": [
+        "src/**/*.ts",
+        "node_modules/three/src/**.ts",
+        "node_modules/factorygame/src/**.ts"
+    ]
+}
