@@ -3,9 +3,7 @@
   "version": "1.0.0",
   "description": "Web game for folktales",
   "main": "index.js",
-  "scripts": {
-    "start": "pwsh ./scripts/folktales_start.ps1"
-  },
+  "scripts": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/herobank110/web-folktales.git"
@@ -17,7 +15,7 @@
   },
   "homepage": "https://github.com/herobank110/web-folktales#readme",
   "dependencies": {
-    "factorygame": "0.1.3",
+    "factorygame": "0.1.6",
     "typescript": "3.8.3",
     "three": "0.118.3"
   }

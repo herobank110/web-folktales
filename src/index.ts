@@ -1,4 +1,3 @@
-import { GameEngine } from "/lib/factorygame/src/core/engineBase.js";
-import {GameplayUtilities } from "/lib/factorygame/src/utils/gameplay.js";
+import { GameEngine, GameplayUtilities } from "/folktales/include/factorygame/factorygame.js";
 let a = GameplayUtilities.createGameEngine(GameEngine);
 

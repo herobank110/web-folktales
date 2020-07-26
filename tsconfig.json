@@ -2,16 +2,16 @@
     "compilerOptions": {
         "target": "es6",
         "moduleResolution": "node",
-        "outDir": "public",
+        "outDir": "public/folktales",
         "baseUrl": "src",
         "paths": {
-            "/lib": [ "../public/lib" ],
-            "/lib/*.js": [ "../public/lib/*.d.ts" ]
+            "/folktales/include": [ "../public/folktales/include" ],
+            "/folktales/include/*.js": [ "../public/folktales/include/*.d.ts" ]
         }
     },
     "include": [
         "src/**/*.ts",
         "node_modules/three/src/**.ts",
-        "node_modules/factorygame/src/**.ts"
+        "node_modules/factorygame/include/**.ts"
     ]
 }
