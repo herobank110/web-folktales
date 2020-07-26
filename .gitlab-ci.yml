@@ -1,0 +1,32 @@
+# Official framework image for Node.js
+image: node:latest
+
+# Keep the modules to avoid reinstalling them every time.
+cache:
+  paths:
+    - node_modules/
+
+# Make sure all packages are installed before running other scripts.
+before_script:
+  - npm install
+
+# Perform offline automated tests using through Node.js.
+# test_async:
+#   script:
+#     - npm test
+
+# Preprocess the web files and deploy on gitlab web hosting.
+pages:
+  stage: deploy
+  script:
+    - chmod +x ./folktales_start.sh
+    - ./folktales_start.sh
+    - cd public/folktales
+    - mv * ../
+  interruptible: true
+  artifacts:
+    paths:
+      - public
+    expire_in: 3 days
+  only:
+    - master
