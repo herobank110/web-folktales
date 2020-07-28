@@ -1,7 +1,9 @@
-import { World, Loc, GameplayStatics, Actor } from "/folktales/include/factorygame/factorygame.js";
+import { Loc } from "/folktales/include/factorygame/factorygame.js";
 import { PlayerAsCharacterPawn, PlayerController } from "../pawns.js";
+import { FolkWorldBase, makeTick } from "../core/world.js";
+var THREE = window["THREE"];
 
-export class FolkHubWorld extends World {
+export class FolkHubWorld extends FolkWorldBase {
     beginPlay() {
         super.beginPlay();
 
@@ -12,15 +14,12 @@ export class FolkHubWorld extends World {
         pc.possess(pl);
         pl.addMovementInput(new Loc(100, 100));
 
-        // This is a nice one to have!
-        function makeTick(tickFunction) {
-            GameplayStatics.world.spawnActor(
-                class extends Actor { tick(deltaTime) { tickFunction(deltaTime) } },
-                [0, 0]
-            );
-        }
+        var geometry = new THREE.BoxGeometry();
+        var material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+        var cube = new THREE.Mesh(geometry, material);
+        this.scene.add(cube);
+        this.camera.position.z = 5;
 
-        let t = 0;
-        makeTick(dt => (((t += dt) % .01) < dt) && $("body").text(`Velocity: ${pl.getCharacterMovement().velocity}`));
+        makeTick(dt => { cube.rotateY(Math.PI / 2 * dt); });
     }
 }

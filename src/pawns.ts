@@ -1,4 +1,4 @@
-import { Actor, EngineObject, Loc, GameplayUtilities, MathStat } from "/folktales/include/factorygame/factorygame.js";
+import { Actor, EngineObject, Loc, GameplayUtilities, MathStat, GameplayStatics, EngineInputMappings, EInputEvent } from "/folktales/include/factorygame/factorygame.js";
 var THREE: typeof import("three") = window["three"];
 
 /**
@@ -220,9 +220,12 @@ class Controller extends Actor {
 /**
  * Represents a human player in the game.
  */
-export class PlayerController extends Controller {
+export class PlayerController extends Controller { }
 
-}
+/**
+ * Represents a computer driven entity controlling pawns in the game.
+ */
+export class AIController extends Controller { }
 
 /**
  * Base class for humanoid characters.
@@ -265,4 +268,44 @@ class Character extends Pawn {
  * Pawn class for the player in the hub world between missions.
  */
 export class PlayerAsCharacterPawn extends Character {
+    private movementTarget: Loc = new Loc(0, 0);
+
+    constructor() {
+        super();
+        this.setupInputComponent(GameplayStatics.gameEngine.inputMappings);
+    }
+
+    private setupInputComponent(inputComponent: EngineInputMappings) {
+        // Functions to set movement target.
+        inputComponent.bindAction("MoveForward", EInputEvent.PRESSED,
+            () => { this.movementTarget.y = 1; }
+        );
+        inputComponent.bindAction("MoveBack", EInputEvent.PRESSED,
+            () => { this.movementTarget.y = -1; }
+        );
+        inputComponent.bindAction("MoveRight", EInputEvent.PRESSED,
+            () => { this.movementTarget.x = 1; }
+        );
+        inputComponent.bindAction("MoveLeft", EInputEvent.PRESSED,
+            () => { this.movementTarget.x = -1; }
+        );
+
+        inputComponent.bindAction("MoveForward", EInputEvent.RELEASED,
+            () => { if (this.movementTarget.y == 1) this.movementTarget.y = 0; }
+        );
+        inputComponent.bindAction("MoveBack", EInputEvent.RELEASED,
+            () => { if (this.movementTarget.y == -1) this.movementTarget.y = 0; }
+        );
+        inputComponent.bindAction("MoveRight", EInputEvent.RELEASED,
+            () => { if (this.movementTarget.x == 1) this.movementTarget.x = 0; }
+        );
+        inputComponent.bindAction("MoveLeft", EInputEvent.RELEASED,
+            () => { if (this.movementTarget.x == -1) this.movementTarget.x = 0; }
+        );
+
+        
+        inputComponent.bindAction("Interact", EInputEvent.PRESSED,
+            () => { console.log("pressed interact!");
+        });
+    }
 }
