@@ -1,5 +1,6 @@
 import { Actor, EngineObject, Loc, GameplayUtilities, MathStat, GameplayStatics, EngineInputMappings, EInputEvent } from "/folktales/include/factorygame/factorygame.js";
 import { FolkWorldBase } from "core/world";
+import { Vector3 } from "three";
 var THREE = window["THREE"];
 
 /**
@@ -295,7 +296,16 @@ export class PlayerAsCharacterPawn extends Character {
         // Attach the world created camera to this player.
         let world = GameplayStatics.world as FolkWorldBase;
         this.root.add(world.camera);
-        world.camera.position.set(0, 3, 50);
+        world.camera.position.set(0, 150, 450);
+        world.camera.rotateX(-0.2);
+
+        // Add the player visualization cube.
+        let halfHeight = 170 / 2;
+        let geometry = new THREE.BoxGeometry(50, halfHeight * 2, 30);
+        let material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+        let cube = new THREE.Mesh(geometry, material);
+        this.root.add(cube);
+        cube.position.y -= halfHeight;
     }
 
     private setupInputComponent(inputComponent: EngineInputMappings) {
