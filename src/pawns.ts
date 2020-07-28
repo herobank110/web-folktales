@@ -1,10 +1,22 @@
 import { Actor, EngineObject, Loc, GameplayUtilities, MathStat, GameplayStatics, EngineInputMappings, EInputEvent } from "/folktales/include/factorygame/factorygame.js";
-var THREE: typeof import("three") = window["three"];
+import { FolkWorldBase } from "core/world";
+var THREE = window["THREE"];
 
 /**
  * Base class for actors that can be possessed by a player controller.
  */
 class Pawn extends Actor {
+    /** THREE.js scene root. */
+    root: THREE.Object3D;
+
+    constructor() {
+        super();
+        // Create THREE.JS components for this actor.
+        this.root = new THREE.Object3D();
+        let world = GameplayStatics.world as FolkWorldBase;
+        world.scene.add(this.root);
+    }
+
     /**
      * Called when a controller begins possession of this pawn.
      * 
@@ -32,7 +44,11 @@ class Pawn extends Actor {
         return true;
     }
 
-    public tick(deltaTime: number): void { }
+    public tick(deltaTime: number): void {
+        // Copy location to THREE.js actor scene root.
+        let pos = new Loc(this.location);
+        this.root.position.copy(pos);
+    }
 }
 
 /**
@@ -268,20 +284,27 @@ class Character extends Pawn {
  * Pawn class for the player in the hub world between missions.
  */
 export class PlayerAsCharacterPawn extends Character {
+    /** Direction for the player to move in. */
     private movementTarget: Loc = new Loc(0, 0);
 
     constructor() {
         super();
         this.setupInputComponent(GameplayStatics.gameEngine.inputMappings);
+        this.getCharacterMovement().zeroVelocityThreshold = 0.5;
+
+        // Attach the world created camera to this player.
+        let world = GameplayStatics.world as FolkWorldBase;
+        this.root.add(world.camera);
+        world.camera.position.set(0, 3, 50);
     }
 
     private setupInputComponent(inputComponent: EngineInputMappings) {
         // Functions to set movement target.
         inputComponent.bindAction("MoveForward", EInputEvent.PRESSED,
-            () => { this.movementTarget.y = 1; }
+            () => { this.movementTarget.z = -1; }
         );
         inputComponent.bindAction("MoveBack", EInputEvent.PRESSED,
-            () => { this.movementTarget.y = -1; }
+            () => { this.movementTarget.z = 1; }
         );
         inputComponent.bindAction("MoveRight", EInputEvent.PRESSED,
             () => { this.movementTarget.x = 1; }
@@ -291,10 +314,10 @@ export class PlayerAsCharacterPawn extends Character {
         );
 
         inputComponent.bindAction("MoveForward", EInputEvent.RELEASED,
-            () => { if (this.movementTarget.y == 1) this.movementTarget.y = 0; }
+            () => { if (this.movementTarget.z == -1) this.movementTarget.z = 0; }
         );
         inputComponent.bindAction("MoveBack", EInputEvent.RELEASED,
-            () => { if (this.movementTarget.y == -1) this.movementTarget.y = 0; }
+            () => { if (this.movementTarget.z == 1) this.movementTarget.z = 0; }
         );
         inputComponent.bindAction("MoveRight", EInputEvent.RELEASED,
             () => { if (this.movementTarget.x == 1) this.movementTarget.x = 0; }
@@ -303,9 +326,18 @@ export class PlayerAsCharacterPawn extends Character {
             () => { if (this.movementTarget.x == -1) this.movementTarget.x = 0; }
         );
 
-        
+
         inputComponent.bindAction("Interact", EInputEvent.PRESSED,
-            () => { console.log("pressed interact!");
-        });
+            () => {
+                console.log("pressed interact!");
+            });
+    }
+
+    tick(deltaTime: number): void {
+        // Apply movement to the input component.
+        // TODO: Seriously MAKE THE INPUT AXIS THING!!!!
+        this.addMovementInput(this.movementTarget);
+
+        super.tick(deltaTime);
     }
 }

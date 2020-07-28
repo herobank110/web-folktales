@@ -28,12 +28,16 @@ export class FolkWorldBase extends World {
         this.scene = new THREE.Scene();
         this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
         this.renderer = new THREE.WebGLRenderer();
+
+        // Resize to fit whole window always.
         this.renderer.setSize(window.innerWidth, window.innerHeight);
         window.onresize = () => {
             this.camera.aspect = window.innerWidth / window.innerHeight;
             this.camera.updateProjectionMatrix();
             this.renderer.setSize(window.innerWidth, window.innerHeight);
         };
+
+        // Attach canvas to window.
         document.body.appendChild(this.renderer.domElement);
     }
 }
