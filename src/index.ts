@@ -8,14 +8,16 @@ let pl = GameplayStatics.world.spawnActor(PlayerAsCharacterPawn, [0, 0]);
 
 
 pc.possess(pl);
-pl.addMovementInput(new Loc(10, 10));
+pl.addMovementInput(new Loc(100, 100));
 
 
-function quickTick(tickFunction) {
+function makeTick(tickFunction) {
     GameplayStatics.world.spawnActor(
         class extends Actor { tick(deltaTime) { tickFunction(deltaTime) } },
         [0, 0]
     );
 }
 
-quickTick(dt => $("body").text(`Velocity: ${pl.getCharacterMovement().velocity}`));
+pl.getCharacterMovement().isFalling = true;
+let t = 0;
+makeTick(dt => (((t+=dt) % .01) < dt) && $("body").text(`Velocity: ${pl.getCharacterMovement().velocity}`));

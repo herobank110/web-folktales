@@ -1,4 +1,5 @@
-import { Actor, EngineObject, Loc, GameplayUtilities } from "/folktales/include/factorygame/factorygame.js";
+import { Actor, EngineObject, Loc, GameplayUtilities, MathStat } from "/folktales/include/factorygame/factorygame.js";
+var THREE: typeof import("three") = window["three"];
 
 /**
  * Base class for actors that can be possessed by a player controller.
@@ -67,6 +68,12 @@ class CharacterMovementComponent extends EngineObject {
     /** Scale of gravity. 1 means normal downward gravity. */
     public gravityScale: number = 1.0;
 
+    /** Whether the player is currently falling or safely on ground. */
+    public isFalling: boolean = false;
+
+    /** Speed at which the player will be considered to be perfectly still. */
+    zeroVelocityThreshold: number = 1.0;
+
     /** Returns the current velocity. */
     public get velocity() { return this._velocity; }
 
@@ -74,7 +81,7 @@ class CharacterMovementComponent extends EngineObject {
     private _velocity: Loc = new Loc(0, 0);
 
     /** Mode of movement. If None, movement is disabled. */
-    private movementMode: EMovementMode = EMovementMode.None;
+    private movementMode: EMovementMode = EMovementMode.Walking;
 
     /**
      * Add movement to be applied this frame.
@@ -118,26 +125,36 @@ class CharacterMovementComponent extends EngineObject {
             return;
         }
 
-        // Go downwards in velocity due to gravity.
-        this._velocity.y += -9.8 * deltaTime * this.gravityScale;
-
-        // Reduce movement due to friction.
-        let friction = 1.0;
-        switch (this.movementMode) {
-            case EMovementMode.Walking: friction = this.walkingFriction; break;
-            case EMovementMode.Swimming: friction = this.swimmingFriction; break;
-        }
-        // If friction coefficient is 1, it means FULL friction (no sliding).
-        // At 0 it means 0 friction (perfect ice sliding).
-        // TODO: Consider surface angle and gravity scale when applying friction.
-        this.velocity.multiplyScalar(1 - friction);
-
-        // TODO: test collision.
-
         // Apply change to position.
         let pos = new Loc(this.targetActor.location);
         pos.addScaledVector(this.velocity, deltaTime);
         this.targetActor.location = pos;
+
+        // Change velocity based on acceleration factors.
+        if (this.isFalling) {
+            // Go downwards in velocity due to gravity.
+            this._velocity.y += -9.8 * this.gravityScale * deltaTime;
+        } else {
+            // Reduce movement due to friction.
+            let friction = 1.0;
+            switch (this.movementMode) {
+                case EMovementMode.Walking: friction = this.walkingFriction; break;
+                case EMovementMode.Swimming: friction = this.swimmingFriction; break;
+            }
+            // If friction coefficient is 1, it means FULL friction (no sliding).
+            // At 0 it means 0 friction (perfect ice sliding).
+            // TODO: Consider surface angle and gravity scale when applying friction.
+            let deceleration = this.velocity.clone();
+            deceleration.multiplyScalar(friction);
+            this.velocity.addScaledVector(deceleration, -1 * deltaTime);
+        }
+
+        // Clamp velocity to zero if near.
+        if (this.velocity.length() < this.zeroVelocityThreshold) {
+            this.velocity.set(0, 0, 0);
+        }
+
+        // TODO: test collision.
     }
 }
 
@@ -222,6 +239,7 @@ class Character extends Pawn {
 
         // Create components.
         this.characterMovement = GameplayUtilities.createEngineObject(CharacterMovementComponent);
+        this.characterMovement.targetActor = this;
     }
 
     public tick(deltaTime: number): void {
