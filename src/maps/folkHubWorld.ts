@@ -1,6 +1,7 @@
 import { Loc } from "/folktales/include/factorygame/factorygame.js";
 import { PlayerAsCharacterPawn, PlayerController } from "../pawns.js";
 import { FolkWorldBase, makeTick } from "../core/world.js";
+// @ts-ignore
 import { FBXLoader } from "/folktales/include/three/examples/jsm/loaders/fbxLoader.js";
 
 var THREE = window["THREE"];
