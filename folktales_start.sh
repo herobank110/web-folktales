@@ -8,7 +8,5 @@ then
     cp node_modules/three public/folktales/include -r
 fi
 
-ls public/folktales/include/three/examples/jsm/loaders
-
 # Compile typescript files.
 npx tsc
