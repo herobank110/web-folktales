@@ -27,7 +27,11 @@ export class FolkWorldBase extends World {
         // TODO: Integrate with game engine's tkObj instead of window.
         this.scene = new THREE.Scene();
         this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        this.renderer = new THREE.WebGLRenderer();
+
+        // Create the webGL renderer.
+        this.renderer = new THREE.WebGLRenderer( { antialias: true } );
+        this.renderer.setPixelRatio( window.devicePixelRatio );
+        this.renderer.shadowMap.enabled = true;
 
         // Resize to fit whole window always.
         this.renderer.setSize(window.innerWidth, window.innerHeight);

@@ -1,6 +1,8 @@
 import { Loc } from "/folktales/include/factorygame/factorygame.js";
 import { PlayerAsCharacterPawn, PlayerController } from "../pawns.js";
 import { FolkWorldBase, makeTick } from "../core/world.js";
+import { FBXLoader } from "/folktales/include/three/examples/jsm/loaders/fbxLoader.js";
+
 var THREE = window["THREE"];
 
 export class FolkHubWorld extends FolkWorldBase {
@@ -36,6 +38,10 @@ export class FolkHubWorld extends FolkWorldBase {
         this.scene.add(envLight);
 
         // TODO: import FBX model
+        let fbxLoader = new FBXLoader();
+        fbxLoader.load("./content/cube_1m.fbx", (object) => {
+            this.scene.add(object);
+        });
 
         makeTick(dt => { cube.rotateY(Math.PI / 2 * dt); });
     }
