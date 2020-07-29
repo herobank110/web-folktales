@@ -14,6 +14,8 @@ class Pawn extends Actor {
         super();
         // Create THREE.JS components for this actor.
         this.root = new THREE.Object3D();
+        this.root.castShadow = true;
+        this.root.receiveShadow = true;
         let world = GameplayStatics.world as FolkWorldBase;
         world.scene.add(this.root);
     }
@@ -296,16 +298,16 @@ export class PlayerAsCharacterPawn extends Character {
         // Attach the world created camera to this player.
         let world = GameplayStatics.world as FolkWorldBase;
         this.root.add(world.camera);
-        world.camera.position.set(0, 150, 450);
+        world.camera.position.set(-75, 200, 250);
         world.camera.rotateX(-0.2);
 
         // Add the player visualization cube.
         let halfHeight = 170 / 2;
         let geometry = new THREE.BoxGeometry(50, halfHeight * 2, 30);
-        let material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+        let material = new THREE.MeshPhongMaterial({ color: 0x00ff00 });
         let cube = new THREE.Mesh(geometry, material);
         this.root.add(cube);
-        cube.position.y -= halfHeight;
+        cube.position.y += halfHeight;
     }
 
     private setupInputComponent(inputComponent: EngineInputMappings) {

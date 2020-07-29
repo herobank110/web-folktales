@@ -13,10 +13,29 @@ export class FolkHubWorld extends FolkWorldBase {
 
         pc.possess(pl);
 
-        var geometry = new THREE.BoxGeometry(10, 10, 10);
-        var material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-        var cube = new THREE.Mesh(geometry, material);
+        let geometry = new THREE.BoxGeometry(10, 10, 10);
+        let material = new THREE.MeshPhongMaterial({ color: 0x00ff00 });
+        let cube = new THREE.Mesh(geometry, material);
+        cube.position.y = 5;
         this.scene.add(cube);
+
+        let planeGeom = new THREE.PlaneGeometry(1000, 1000);
+        let planeMat = new THREE.MeshPhongMaterial({color: 0xeeeeee});
+        let plane = new THREE.Mesh(planeGeom, planeMat);
+        plane.rotation.x = Math.PI / -2;
+        plane.position.y -= 3;
+        this.scene.add(plane);
+        plane.receiveShadow = true;
+
+
+        let dirLight = new THREE.DirectionalLight();
+        dirLight.rotation.x = Math.PI / 2;
+        this.scene.add(dirLight);
+
+        let envLight = new THREE.AmbientLight(0xcccccc);
+        this.scene.add(envLight);
+
+        // TODO: import FBX model
 
         makeTick(dt => { cube.rotateY(Math.PI / 2 * dt); });
     }
