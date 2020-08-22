@@ -3,6 +3,7 @@ import { PlayerAsCharacterPawn, PlayerController } from "../pawns.js";
 import { FolkWorldBase, makeTick } from "../core/world.js";
 import { FBXLoader } from "/folktales/include/three/examples/jsm/loaders/FBXLoader.js";
 import { SubtitleManager, HtmlTextViewer } from "../changeling-1102/subtitles.js";
+import { ScreenFade } from "../changeling-1102/screenFade.js";
 var THREE = window["THREE"];
 
 export class FolkHubWorld extends FolkWorldBase {
@@ -91,5 +92,9 @@ export class FolkHubWorld extends FolkWorldBase {
         textViewer.setFont({ "font-family": "Roboto", "font-size": "18px" });
         subtitles.onTextChanged = (text) => { textViewer.setText(text); };
         subtitles.setText("This is where subtitles should go.");
+
+        // Test the screen fade system.
+        let screenFader = new ScreenFade();
+        screenFader.setOpacity(0.5);
     }
 }
