@@ -1,19 +1,24 @@
 /**
  * Allows the screen to be faded to a color.
+ * 
+ * Construct before/after the subtitles text viewer depending on
+ * whether you want text shown or hidden by the screen cover.
  */
-export class ScreenFade {
+export class ScreenCover {
     domElement: HTMLElement;
 
     constructor() {
         // Create the fullscreen covering block.
-        let el = $(`<div class="fixed-top h-100 w-100"`);
+        let el = $(`<div class="fixed-top h-100 w-100">`);
+
+        // Set reference.
+        this.domElement = el.get(0);
 
         // Transparent at start.
         this.setColor("#000");
         this.setOpacity(0);
 
-        // Set reference.
-        this.domElement = el.get(0);
+        $(document.body).append(el);
     }
 
     /**
