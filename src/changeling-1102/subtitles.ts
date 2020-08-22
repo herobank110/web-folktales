@@ -14,6 +14,12 @@ export class SubtitleManager {
     public onTextChanged: (inText: string) => void;
 }
 
+/**
+ * Displays text at the bottom of the screen in a box.
+ * 
+ * Only one viewer should ever be created as their text will overlap
+ * and there is currently no way to remove the text box.
+ */
 export class HtmlTextViewer {
 
     public constructor() {
