@@ -1,3 +1,5 @@
+import { EngineObject } from "/folktales/include/factorygame/factorygame.js";
+
 /**
  * Displays audio subtitles on screen.
  */
@@ -59,4 +61,24 @@ export class HtmlTextViewer {
 
     /** Span element that is used for displaying the text. */
     public readonly domElement: HTMLSpanElement;
+}
+
+/**
+ * SubtitleManager and HtmlTextViewer as a gameplay component.
+ */
+export class SubtitleComponent extends EngineObject {
+    /** Use for setting text. */
+    public subtitleManager: SubtitleManager;
+    /** Use for visual configuration. */
+    public textViewer: HtmlTextViewer;
+
+    constructor() {
+        super();
+        this.subtitleManager = new SubtitleManager();
+        this.textViewer = new HtmlTextViewer();
+        // Set a sensible default font.
+        this.textViewer.setFont({ "font-family": "Roboto", "font-size": "18px" });
+        // Update the visible subtitles when the subtitles changed.
+        this.subtitleManager.onTextChanged = (text) => { this.textViewer.setText(text); };
+    }
 }

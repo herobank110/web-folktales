@@ -2,7 +2,6 @@ import { Loc, GameplayStatics, EInputEvent } from "/folktales/include/factorygam
 import { PlayerAsCharacterPawn, PlayerController } from "../pawns.js";
 import { FolkWorldBase, makeTick } from "../core/world.js";
 import { FBXLoader } from "/folktales/include/three/examples/jsm/loaders/FBXLoader.js";
-import { SubtitleManager, HtmlTextViewer } from "../changeling-1102/subtitles.js";
 import { ScreenCover } from "../changeling-1102/screenFade.js";
 var THREE = window["THREE"];
 
@@ -85,14 +84,6 @@ export class FolkHubWorld extends FolkWorldBase {
             });
         });
 
-
-        // Test the subtitles system.
-        let subtitles = new SubtitleManager();
-        let textViewer = new HtmlTextViewer();
-        textViewer.setFont({ "font-family": "Roboto", "font-size": "18px" });
-        subtitles.onTextChanged = (text) => { textViewer.setText(text); };
-        subtitles.setText("This is where subtitles should go.");
-
         // Test the screen fade system.
         let screenCover = this.spawnActor(ScreenCover, [0, 0]);
         screenCover.dipToWhite(2);
@@ -101,7 +92,7 @@ export class FolkHubWorld extends FolkWorldBase {
         {
             // create an AudioListener and add it to the camera
             var listener = new THREE.AudioListener();
-            this.camera.add(listener);
+            //this.camera.add(listener);
             // Must react to input
             GameplayStatics.gameEngine.inputMappings.bindAction("DebugTest", EInputEvent.PRESSED, () => {
                 // create a global audio source
