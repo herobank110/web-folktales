@@ -94,7 +94,7 @@ export class FolkHubWorld extends FolkWorldBase {
         subtitles.setText("This is where subtitles should go.");
 
         // Test the screen fade system.
-        let screenFader = new ScreenCover();
-        screenFader.setOpacity(0.5);
+        let screenCover = this.spawnActor(ScreenCover, [0, 0]);
+        screenCover.fadeToBlack(0.5);
     }
 }
