@@ -63,7 +63,7 @@ export class FolkHubWorld extends FolkWorldBase {
                         let meshChild = <THREE.Mesh>child;
                         // The child could have a "material", or "materials" array.
                         // In any case use an array, and then get first element.
-                        let materials = meshChild.material instanceof Array ? meshChild.material : [meshChild.material];                        
+                        let materials = meshChild.material instanceof Array ? meshChild.material : [meshChild.material];
                         if (materials[0].type == "MeshPhongMaterial") {
                             let baseMat = <THREE.MeshPhongMaterial>materials[0];
                             baseMat.setValues({ map: texture, emissive: 0x444444, color: 0x663322, specular: 1.0 });
@@ -88,7 +88,8 @@ export class FolkHubWorld extends FolkWorldBase {
         // Test the subtitles system.
         let subtitles = new SubtitleManager();
         let textViewer = new HtmlTextViewer();
-        subtitles.onTextChanged = (text) => { textViewer.domElement.innerText = text; }
+        textViewer.setFont({ "font-family": "Roboto", "font-size": "18px" });
+        subtitles.onTextChanged = (text) => { textViewer.setText(text); };
         subtitles.setText("This is where subtitles should go.");
     }
 }

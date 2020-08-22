@@ -18,13 +18,37 @@ export class HtmlTextViewer {
 
     public constructor() {
         // Make the element in the DOM.
-        const el = $(`<span class="subtitle-viewer">`)
-            .css({ "display": "block", "max-width": "80vw", "min-width": "200px" });
+        let parent = $(`<div class="subtitle-box container fixed-bottom text-center mb-5 py-1">`)
+            .css({ "color": "white", "background-color": "#222e" });
+        let el = $(`<span class="subtitle-box__text ">`)
+
         // Attach to body.
-        $(document.body).append(el);
+        parent.append(el);
+        $(document.body).append(parent);
 
         // Save for future reference.
-        this.domElement = el.get(0);
+        this.domElement = parent.get(0);
+    }
+
+    /** Sets the displayed text. Can be marked up using HTML. */
+    public setText(inText: string): void {
+        if (this.domElement !== undefined) {
+            // Apply to the span inside the div.
+            $(this.domElement).children("span").html(inText);
+        }
+    }
+
+    /**
+     * Set the CSS styling of the text.
+     * 
+     * Common properties could include:
+     * { "font-family": "serif", "font-size": "" }
+    */
+    public setFont(styleObject: { "font-family"?: string, "font-size"?: string }) {
+        if (this.domElement !== undefined) {
+            // Apply to the span inside the div.
+            $(this.domElement).children("span").css(styleObject);
+        }
     }
 
     /** Span element that is used for displaying the text. */
