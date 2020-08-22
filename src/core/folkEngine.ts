@@ -13,5 +13,7 @@ export class FolkEngine extends GameEngine {
         this.inputMappings.addActionMapping("MoveLeft", EKeys.A);
         this.inputMappings.addActionMapping("MoveRight", EKeys.D);
         this.inputMappings.addActionMapping("Interact", EKeys.E, EKeys.LeftMouseButton);
+
+        this.inputMappings.addActionMapping("DebugTest", EKeys.B);
     }
 }

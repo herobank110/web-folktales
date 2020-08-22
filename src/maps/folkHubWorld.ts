@@ -1,4 +1,4 @@
-import { Loc } from "/folktales/include/factorygame/factorygame.js";
+import { Loc, GameplayStatics, EInputEvent } from "/folktales/include/factorygame/factorygame.js";
 import { PlayerAsCharacterPawn, PlayerController } from "../pawns.js";
 import { FolkWorldBase, makeTick } from "../core/world.js";
 import { FBXLoader } from "/folktales/include/three/examples/jsm/loaders/FBXLoader.js";
@@ -97,5 +97,23 @@ export class FolkHubWorld extends FolkWorldBase {
         let screenCover = this.spawnActor(ScreenCover, [0, 0]);
         screenCover.dipToWhite(2);
 
+        // Test the audio playback system.
+        GameplayStatics.gameEngine.inputMappings.bindAction("DebugTest", EInputEvent.PRESSED, () => {
+            // create an AudioListener and add it to the camera
+            var listener = new THREE.AudioListener();
+            this.camera.add(listener);
+
+            // create a global audio source
+            var sound = new THREE.Audio(listener);
+
+            // load a sound and set it as the Audio object's buffer
+            var audioLoader = new THREE.AudioLoader();
+            audioLoader.load('sounds/ambient.ogg', function (buffer) {
+                sound.setBuffer(buffer);
+                sound.setLoop(true);
+                sound.setVolume(0.5);
+                sound.play();
+            });
+        }))
     }
 }
