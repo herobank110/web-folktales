@@ -98,22 +98,24 @@ export class FolkHubWorld extends FolkWorldBase {
         screenCover.dipToWhite(2);
 
         // Test the audio playback system.
-        GameplayStatics.gameEngine.inputMappings.bindAction("DebugTest", EInputEvent.PRESSED, () => {
+        {
             // create an AudioListener and add it to the camera
             var listener = new THREE.AudioListener();
             this.camera.add(listener);
+            // Must react to input
+            GameplayStatics.gameEngine.inputMappings.bindAction("DebugTest", EInputEvent.PRESSED, () => {
+                // create a global audio source
+                var sound = new THREE.Audio(listener);
 
-            // create a global audio source
-            var sound = new THREE.Audio(listener);
-
-            // load a sound and set it as the Audio object's buffer
-            var audioLoader = new THREE.AudioLoader();
-            audioLoader.load('sounds/ambient.ogg', function (buffer) {
-                sound.setBuffer(buffer);
-                sound.setLoop(true);
-                sound.setVolume(0.5);
-                sound.play();
+                // load a sound and set it as the Audio object's buffer
+                var audioLoader = new THREE.AudioLoader();
+                audioLoader.load("./content/s_coralie_clement_short.mp3", function (buffer) {
+                    sound.setBuffer(buffer);
+                    sound.setLoop(true);
+                    sound.setVolume(0.5);
+                    sound.play();
+                });
             });
-        }))
+        }
     }
 }
