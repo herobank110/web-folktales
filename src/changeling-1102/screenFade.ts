@@ -5,14 +5,14 @@
  * whether you want text shown or hidden by the screen cover.
  */
 export class ScreenCover {
-    domElement: HTMLElement;
+    domElement: HTMLDivElement;
 
     constructor() {
         // Create the fullscreen covering block.
         let el = $(`<div class="fixed-top h-100 w-100">`);
 
         // Set reference.
-        this.domElement = el.get(0);
+        this.domElement = el.get(0) as HTMLDivElement;
 
         // Transparent at start.
         this.setColor("#000");
