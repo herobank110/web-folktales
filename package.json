@@ -16,7 +16,7 @@
   "homepage": "https://github.com/herobank110/web-folktales#readme",
   "dependencies": {
     "@types/jquery": "2.0.34",
-    "factorygame": "0.1.6",
+    "factorygame": "0.1.9",
     "typescript": "3.8.3",
     "three": "0.118.3"
   }
