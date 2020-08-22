@@ -63,10 +63,10 @@ export class ScreenCover extends Actor {
      */
     public startAccumulatedFade(startColor: string, startOpacity: number, endColor: string, endOpacity: number, duration: number) {
         // Save animated properties.
-        this.startOpacity = startOpacity;
         this.startColor = startColor;
-        this.endOpacity = endOpacity;
+        this.startOpacity = startOpacity;
         this.endColor = endColor;
+        this.endOpacity = endOpacity;
         this.duration = duration;
         if (this.duration <= 0) {
             throw new RangeError("Animation cannot have negative or zero duration");
@@ -110,8 +110,7 @@ export class ScreenCover extends Actor {
 
             // Perform a simple linear interpolation.
             let bias = this.currentTime / this.duration;
-            console.log(MathStat.lerp(this.startColor, this.endColor, bias));
-            
+
             this.setColor(MathStat.lerp(this.startColor, this.endColor, bias));
             this.setOpacity(MathStat.lerp(this.startOpacity, this.endOpacity, bias));
 
