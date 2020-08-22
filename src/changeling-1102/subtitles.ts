@@ -11,7 +11,7 @@ export class SubtitleManager {
     }
 
     private currentText: string = "";
-    public onTextChanged: (inText: string) => void = void (0);
+    public onTextChanged: (inText: string) => void;
 }
 
 export class HtmlTextViewer {
