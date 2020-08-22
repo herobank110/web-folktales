@@ -56,7 +56,11 @@ export class ScreenCover extends Actor {
         }
     }
 
-    /** Fade to the desired opacity over time. */
+    /** Fade to the desired opacity over time. 
+     *
+     * Colors must be RGB hex strings starting with "#", and must have
+     * two characters per component. Eg, "#RrGgBb"
+     */
     public startAccumulatedFade(startColor: string, startOpacity: number, endColor: string, endOpacity: number, duration: number) {
         // Save animated properties.
         this.startOpacity = startOpacity;
@@ -74,12 +78,28 @@ export class ScreenCover extends Actor {
 
     /** Helper to fade the screen from transparent to white. */
     public fadeToWhite(duration: number) {
-        this.startAccumulatedFade("#fff", 0, "#fff", 1, duration);
+        this.startAccumulatedFade("#ffffff", 0, "#ffffff", 1, duration);
     }
 
     /** Helper to fade the screen from transparent to black. */
     public fadeToBlack(duration: number) {
-        this.startAccumulatedFade("#000", 0, "#000", 1, duration);
+        this.startAccumulatedFade("#000000", 0, "#000000", 1, duration);
+    }
+
+    /** Helper to fade from transparent to black to transparent. */
+    public dipToBlack(duration: number) {
+        this.startAccumulatedFade("#000000", 0, "#000000", 1, duration / 2);
+        setTimeout(() => {
+            this.startAccumulatedFade("#000000", 1, "#000000", 0, duration / 2);
+        }, duration / 2 * 1000)
+    }
+
+    /** Helper to fade from transparent to white to transparent. */
+    public dipToWhite(duration: number) {
+        this.startAccumulatedFade("#ffffff", 0, "#ffffff", 1, duration / 2);
+        setTimeout(() => {
+            this.startAccumulatedFade("#ffffff", 1, "#ffffff", 0, duration / 2);
+        }, duration / 2 * 1000)
     }
 
     public tick(deltaTime: number) {
@@ -90,6 +110,8 @@ export class ScreenCover extends Actor {
 
             // Perform a simple linear interpolation.
             let bias = this.currentTime / this.duration;
+            console.log(MathStat.lerp(this.startColor, this.endColor, bias));
+            
             this.setColor(MathStat.lerp(this.startColor, this.endColor, bias));
             this.setOpacity(MathStat.lerp(this.startOpacity, this.endOpacity, bias));
 

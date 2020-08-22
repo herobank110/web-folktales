@@ -95,6 +95,7 @@ export class FolkHubWorld extends FolkWorldBase {
 
         // Test the screen fade system.
         let screenCover = this.spawnActor(ScreenCover, [0, 0]);
-        screenCover.fadeToBlack(0.5);
+        screenCover.dipToWhite(2);
+
     }
 }
