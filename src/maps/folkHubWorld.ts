@@ -4,6 +4,7 @@ import { FolkWorldBase, makeTick } from "../core/world.js";
 import { FBXLoader } from "/folktales/include/three/examples/jsm/loaders/FBXLoader.js";
 import { ScreenCover } from "../changeling-1102/screenFade.js";
 import { SoundMixer2D } from "../changeling-1102/audioPlayer.js";
+import { AnimationActionLoopStyles } from "three";
 var THREE = window["THREE"];
 
 export class FolkHubWorld extends FolkWorldBase {
@@ -82,9 +83,30 @@ export class FolkHubWorld extends FolkWorldBase {
         fbxLoader.load("./content/anim_rotateUp.fbx", (object) => {
             this.scene.add(object);
             object.position.x = 350;
-            console.log(object);
-            object.children.forEach((child) => {
-            });
+            object.position.y = 100;
+
+            // Play the animation once.
+
+            // Create an AnimationMixer, and get the list of AnimationClip instances
+            let mesh = object.children[0];
+            let mixer = new THREE.AnimationMixer(mesh);
+            // I don't know what type object is, but it has an attribute "animations".
+            // @ts-ignore
+            let clips: Array<THREE.AnimationClip> = object.animations;
+
+            // Play the first animations. Maya can apparently only export 1 anim per file.
+            let clip = clips[0];
+            let action = mixer.clipAction(clip);
+            // Let the animation loop once, 1 time. (???)
+            action.setLoop(THREE.LoopOnce, 1);
+            // Keep finished state. I exported weird so it snaps back to
+            // the origin when the animation finishes.
+            action.clampWhenFinished = true;
+            action.play();
+
+            // Update the mixer on each frame.
+            // This is required to play the animation.
+            makeTick((deltaTime) => { mixer.update(deltaTime); });
         });
 
         // Test the screen fade system.
@@ -119,5 +141,8 @@ export class FolkHubWorld extends FolkWorldBase {
                     }
                 }
             });
+
+        // Test the import camera animation from maya system.
+        "anim_cameraTest_turn.fbx"
     }
 }
