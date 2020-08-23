@@ -21,12 +21,13 @@ export interface DialogueCue {
 /** Plays sounds and updates subtitles. */
 class DialoguePlayer {
     public audio: THREE.Audio;
-    public subtitle: SubtitleManager;
+    public subtitleManager: SubtitleManager;
 
-    public constructor(listener: THREE.AudioListener) {
+    public constructor(listener: THREE.AudioListener, subtitleManager: SubtitleManager) {
         // Create the audio once so it doesn't have to be remade.
         // Only one dialogue should play at a time (if it is to be subtitled!)
         this.audio = new THREE.Audio(listener);
+        this.subtitleManager = subtitleManager;
     }
 
     public play(cue: DialogueCue) {
@@ -37,33 +38,45 @@ class DialoguePlayer {
         this.audio.play();
 
         // Show the subtitles too.
-        this.subtitle.setText(cue.speechContent);
+        this.subtitleManager.setText(cue.speechContent);
 
         // Remove the subtitle after the delay.
         // It will actually just empty the box rather than hide it.
         // Time must be converted to milliseconds, plus a half second delay.
         let delay = cue.audioCue.duration * 1000 + 500;
-        setTimeout(() => { this.subtitle.setText(""); }, delay);
+        setTimeout(() => { this.subtitleManager.setText(""); }, delay);
     }
 }
 
 // TODO: This should be an actor to use the SubtitleComponent properly!
-export class SoundMixer2D {
+export class SoundMixer2D extends Actor {
     /** Listens to playing audio(s). Only 1 active per game session. */
     private listener: THREE.AudioListener;
 
     /** Plays back dialogue. */
     private dialoguePlayer: DialoguePlayer;
 
+    /** Displays subtitles for dialogue. */
+    private subtitleComponent: SubtitleComponent;
+
     constructor() {
+        super();
+
+        // The audio never needs to tick. It uses asynchronous calls only.
+        this.primaryActorTick.canEverTick = false;
+
         // Create the global (2D) audio listener.
         // In a non-2D sound mixer, you would attach the listener to the camera
         // (or other microphone source.)
         this.listener = new THREE.AudioListener();
 
+        // Apparently only the subtitles are made using components.
+        this.subtitleComponent = GameplayUtilities.createEngineObject(SubtitleComponent);
+
         // Only one dialogue player needs to exist for all instances of
         // dialogue since only one is active at a time.
-        this.dialoguePlayer = new DialoguePlayer(this.listener);
+        this.dialoguePlayer = new DialoguePlayer(this.listener, this.subtitleComponent.subtitleManager);
+        this.dialoguePlayer.subtitleManager;
     }
 
     /**

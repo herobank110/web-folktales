@@ -3,9 +3,12 @@ import { PlayerAsCharacterPawn, PlayerController } from "../pawns.js";
 import { FolkWorldBase, makeTick } from "../core/world.js";
 import { FBXLoader } from "/folktales/include/three/examples/jsm/loaders/FBXLoader.js";
 import { ScreenCover } from "../changeling-1102/screenFade.js";
+import { SoundMixer2D } from "../changeling-1102/audioPlayer.js";
 var THREE = window["THREE"];
 
 export class FolkHubWorld extends FolkWorldBase {
+    testingAudioCue: AudioBuffer;
+    audioMixer: SoundMixer2D;
     beginPlay() {
         super.beginPlay();
 
@@ -89,24 +92,32 @@ export class FolkHubWorld extends FolkWorldBase {
         screenCover.dipToWhite(2);
 
         // Test the audio playback system.
-        {
-            // create an AudioListener and add it to the camera
-            var listener = new THREE.AudioListener();
-            //this.camera.add(listener);
-            // Must react to input
-            GameplayStatics.gameEngine.inputMappings.bindAction("DebugTest", EInputEvent.PRESSED, () => {
-                // create a global audio source
-                var sound = new THREE.Audio(listener);
+        // Create the audio mixer in the world (2D non-spatial audio only.)
+        this.audioMixer = this.spawnActor(SoundMixer2D, [0, 0]);
 
-                // load a sound and set it as the Audio object's buffer
-                var audioLoader = new THREE.AudioLoader();
-                audioLoader.load("./content/s_coralie_clement_short.mp3", function (buffer) {
-                    sound.setBuffer(buffer);
-                    sound.setLoop(true);
-                    sound.setVolume(0.5);
-                    sound.play();
-                });
+        // Load audio for later usage.
+        let audioLoader = new THREE.AudioLoader();
+        audioLoader.load("./content/s_coralie_clement_short.mp3", (buffer) => {
+            // Save a reference to the buffer when loaded.
+            this.testingAudioCue = buffer;
+        });
+        // Play the sound each time the debug key is pressed.
+        GameplayStatics.gameEngine.inputMappings.bindAction(
+            "DebugTest", EInputEvent.PRESSED,
+            () => {
+                if (this.testingAudioCue !== undefined) {
+                    if (Math.random() > 0.5) {
+                        // Play a regular audio cue.
+                        this.audioMixer.playAudio(this.testingAudioCue);
+                    } else {
+                        // Play a dialogue cue.
+                        // The dialogue cues would probably all be made in a static array.
+                        this.audioMixer.playDialogue({
+                            audioCue: this.testingAudioCue,
+                            speechContent: "The speech in the sound goes here."
+                        });
+                    }
+                }
             });
-        }
     }
 }
