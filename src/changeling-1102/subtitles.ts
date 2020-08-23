@@ -36,11 +36,23 @@ export class HtmlTextViewer {
 
         // Save for future reference.
         this.domElement = parent.get(0);
+
+        this.setText("");
+        this.setFont({ "font-family": "Arial", "font-size": "14px" })
     }
 
     /** Sets the displayed text. Can be marked up using HTML. */
     public setText(inText: string): void {
         if (this.domElement !== undefined) {
+            if (inText == "") {
+                // Apply a non blocking space to preserve box height if
+                // subtitles empty, or we could hide the box.
+                inText = "&nbsp;";
+                $(this.domElement).fadeOut();
+            } else {
+                $(this.domElement).fadeIn();
+            }
+
             // Apply to the span inside the div.
             $(this.domElement).children("span").html(inText);
         }

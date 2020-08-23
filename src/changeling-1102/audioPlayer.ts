@@ -90,7 +90,7 @@ export class SoundMixer2D extends Actor {
     public playAudio(cue: AudioBuffer, volume: number = 1.0): THREE.Audio {
         let sound = new THREE.Audio(this.listener);
         sound.setBuffer(cue);
-        sound.setLoop(true);
+        sound.setLoop(false);
         sound.setVolume(volume);
         sound.play();
         return sound;
