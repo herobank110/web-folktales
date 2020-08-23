@@ -28,7 +28,8 @@ export class HtmlTextViewer {
         // Make the element in the DOM.
         let parent = $(`<div class="subtitle-box container fixed-bottom text-center mb-5 py-1">`)
             .css({ "color": "white", "background-color": "#222e" });
-        let el = $(`<span class="subtitle-box__text ">`)
+        // Use a non blocking space to set initial text height.
+        let el = $(`<span class="subtitle-box__text">`).html("&nbsp;");
 
         // Attach to body.
         parent.append(el);
@@ -37,26 +38,26 @@ export class HtmlTextViewer {
         // Save for future reference.
         this.domElement = parent.get(0);
 
-        this.setText("");
         this.setFont({ "font-family": "Arial", "font-size": "14px" })
+
+        // Hide when it has no text inside.
+        parent.hide();
     }
 
     /** Sets the displayed text. Can be marked up using HTML. */
     public setText(inText: string): void {
         if (this.domElement !== undefined) {
             if (inText == "") {
-                // Apply a non blocking space to preserve box height if
-                // subtitles empty, or we could hide the box.
-                inText = "&nbsp;";
-                $(this.domElement).fadeOut();
-            } else {
-                $(this.domElement).fadeIn();
+                // Fade the text box out if clearing the text.
+                // This should be another function called "clearText".
+                $(this.domElement).fadeOut("fast");
+                return;
             }
-
-            // Apply to the span inside the div.
+            // Apply new text to the span inside the div.
             $(this.domElement).children("span").html(inText);
+            // Ensure it is visible (does nothing if already shown.)
+            $(this.domElement).fadeIn("fast");
         }
-    }
 
     /**
      * Set the CSS styling of the text.
