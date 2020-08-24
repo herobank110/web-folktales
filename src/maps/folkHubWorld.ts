@@ -145,7 +145,7 @@ export class FolkHubWorld extends FolkWorldBase {
             });
 
         // Test the import camera animation from maya system.
-        
+
         fbxLoader.load("./content/anim_cameraTest_turn.fbx", (object) => {
             // I don't think the animation object needs to be added to
             // the scene. You can scrape the AnimationClip and ignore
@@ -177,7 +177,19 @@ export class FolkHubWorld extends FolkWorldBase {
 
             // Update the mixer on each frame.
             // This is required to play the animation.
-            makeTick((deltaTime) => { mixer.update(deltaTime); });
+            let b = $(`<span class="fixed-top" style="color:white">`);
+            $(document.body).append(b)
+            makeTick((deltaTime) => {
+                mixer.update(deltaTime);
+                b.text(this.camera.position.z);
+            });
+
+            // Add parent for relative offset in import correction.
+            // Maybe just animate using x-forward in maya as usual.
+            let a = new THREE.Group();
+            this.scene.add(a);
+            a.add(this.camera);
+            a.rotation.y = -Math.PI / 2;
         });
     }
 }
