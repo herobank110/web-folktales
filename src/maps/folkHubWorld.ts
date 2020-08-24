@@ -167,7 +167,7 @@ export class FolkHubWorld extends FolkWorldBase {
             let clip = clips[0];
             let action = mixer.clipAction(clip);
             // Let the animation loop once, 1 time. (???)
-            action.setLoop(THREE.LoopOnce, 1);
+            action.setLoop(THREE.LoopPingPong, 999);
             // Keep finished state. I exported weird so it snaps back to
             // the origin when the animation finishes.
             // Actually this may be due to THREE not taking the mesh's 
