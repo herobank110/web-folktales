@@ -101,6 +101,8 @@ export class FolkHubWorld extends FolkWorldBase {
             action.setLoop(THREE.LoopOnce, 1);
             // Keep finished state. I exported weird so it snaps back to
             // the origin when the animation finishes.
+            // Actually this may be due to THREE not taking the mesh's 
+            // pivot as defined in maya, instead using the mesh center.
             action.clampWhenFinished = true;
             action.play();
 
@@ -143,6 +145,39 @@ export class FolkHubWorld extends FolkWorldBase {
             });
 
         // Test the import camera animation from maya system.
-        "anim_cameraTest_turn.fbx"
+        
+        fbxLoader.load("./content/anim_cameraTest_turn.fbx", (object) => {
+            // I don't think the animation object needs to be added to
+            // the scene. You can scrape the AnimationClip and ignore
+            // the rest of the Group.
+            // this.scene.add(object);
+
+            console.log("the new objects is", object);
+
+            // Play the animation once.
+
+            // Create an AnimationMixer, and get the list of AnimationClip instances
+            // Animate the camera object directly.
+            let mixer = new THREE.AnimationMixer(this.camera);
+            // I don't know what type object is, but it has an attribute "animations".
+            // @ts-ignore
+            let clips: Array<THREE.AnimationClip> = object.animations;
+
+            // Play the first animations. Maya can apparently only export 1 anim per file.
+            let clip = clips[0];
+            let action = mixer.clipAction(clip);
+            // Let the animation loop once, 1 time. (???)
+            action.setLoop(THREE.LoopOnce, 1);
+            // Keep finished state. I exported weird so it snaps back to
+            // the origin when the animation finishes.
+            // Actually this may be due to THREE not taking the mesh's 
+            // pivot as defined in maya, instead using the mesh center.
+            action.clampWhenFinished = true;
+            action.play();
+
+            // Update the mixer on each frame.
+            // This is required to play the animation.
+            makeTick((deltaTime) => { mixer.update(deltaTime); });
+        });
     }
 }
