@@ -4,7 +4,7 @@ import { FolkWorldBase, makeTick } from "../core/world.js";
 import { FBXLoader } from "/folktales/include/three/examples/jsm/loaders/FBXLoader.js";
 import { ScreenCover } from "../changeling-1102/screenFade.js";
 import { SoundMixer2D } from "../changeling-1102/audioPlayer.js";
-import { AnimationActionLoopStyles } from "three";
+import { TitleCard } from "../changeling-1102/titleCard.js";
 var THREE = window["THREE"];
 
 export class FolkHubWorld extends FolkWorldBase {
@@ -191,5 +191,11 @@ export class FolkHubWorld extends FolkWorldBase {
             a.add(this.camera);
             a.rotation.y = -Math.PI / 2;
         });
+
+        // Test the title card system. (after the dip to white)
+        setTimeout(() => {
+            const titleCard = new TitleCard("https://th.bing.com/th/id/OIP.w_f-Z3fiVUyUe3m_rg2DJgHaFj?pid=Api&rs=1");
+            titleCard.animate();
+        }, 2000);
     }
 }
