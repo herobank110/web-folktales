@@ -1,6 +1,6 @@
 [x] shot list
 [x] screen fade
-[ ] (IN PROGRESS) Title card, central image with alpha
+[x] Title card, central image with alpha
 [x] subtitles (one at a time)
 [x] audio playback (multiple tracks)
 [ ] (IN PROGRESS) import camera anim from maya
