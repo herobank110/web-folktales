@@ -58,6 +58,7 @@ export class HtmlTextViewer {
             // Ensure it is visible (does nothing if already shown.)
             $(this.domElement).fadeIn("fast");
         }
+    }
 
     /**
      * Set the CSS styling of the text.
