@@ -1,13 +1,14 @@
 [x] shot list
 [x] screen fade
-[ ] on screen text message
+[ ] (IN PROGRESS) Title card, central image with alpha
 [x] subtitles (one at a time)
 [x] audio playback (multiple tracks)
-[ ] import camera anim from maya
+[ ] (IN PROGRESS) import camera anim from maya
 [ ] orbit control camera
 [ ] click shot to shot
 [ ] narrator
-[ ] block environment static maya
+[x] Model environment static maya
 [ ] model dynamic actors maya
 [ ] camera shots anims maya
-[ ] model environment static maya
+[ ] Audio ambient, non diegetic
+[ ] Exportable to zip for itch.io (bundled jquery, etc)
