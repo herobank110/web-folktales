@@ -15,6 +15,9 @@ export class ChangelingWorld extends FolkWorldBase {
     /** Time in seconds to fade up the screen at the start. */
     fadeUpDuration: number = 2;
 
+    /** Whether to prevent the title card and splash screen. */
+    readonly noLogo: boolean = false;
+
     beginPlay() {
         super.beginPlay();
 
@@ -29,28 +32,29 @@ export class ChangelingWorld extends FolkWorldBase {
         const envLight = new THREE.AmbientLight(0xcccccc);
         this.scene.add(envLight);
 
-        // Create the screen cover and make it black initially.
-        const screenCover = this.spawnActor(ScreenCover, [0, 0]);
-        // Start the fade up after a second of black.
-        screenCover.setColor("#000000");
-        screenCover.setOpacity(1);
-        setTimeout(() => {
-            screenCover.startAccumulatedFade("#000000", 1.0, "#000000", 0.0, this.fadeUpDuration);
-        }, 1000);
+        if (!this.noLogo) {
+            // Create the screen cover and make it black initially.
+            const screenCover = this.spawnActor(ScreenCover, [0, 0]);
+            // Start the fade up after a second of black.
+            screenCover.setColor("#000000");
+            screenCover.setOpacity(1);
+            setTimeout(() => {
+                screenCover.startAccumulatedFade("#000000", 1.0, "#000000", 0.0, this.fadeUpDuration);
+            }, 1000);
+
+            // Test the title card system. (after the fade in)
+            setTimeout(() => {
+                const titleCard = new TitleCard("https://th.bing.com/th/id/OIP.w_f-Z3fiVUyUe3m_rg2DJgHaFj?pid=Api&rs=1");
+                titleCard.animate();
+            }, this.fadeUpDuration * 1000 + 2000);
+        }
 
         // Create the audio mixer in the world (2D non-spatial audio only.)
         this.audioMixer = this.spawnActor(SoundMixer2D, [0, 0]);
 
-        // Test the title card system. (after the fade in)
-        setTimeout(() => {
-            const titleCard = new TitleCard("https://th.bing.com/th/id/OIP.w_f-Z3fiVUyUe3m_rg2DJgHaFj?pid=Api&rs=1");
-            titleCard.animate();
-        }, this.fadeUpDuration * 1000 + 2000);
-
-
         // Move the camera to the initial position.
         this.camera.position.y = 100;
-        this.camera.position.z = 300;
+        this.camera.position.z = -150;
         this.camera.rotation.y = Math.PI;
     }
 
