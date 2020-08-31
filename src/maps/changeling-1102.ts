@@ -67,12 +67,24 @@ export class ChangelingWorld extends FolkWorldBase {
     private downloadContent() {
         const fbxLoader = new FBXLoader();
 
+        function onModelLoaded(object) {
+            this.scene.add(object);
+        }
+        function onDynamicModelLoaded(objectID: string) {
+            return (object) => {
+                // TODO: Add to the dynamic actors list.
+                // Add to scene as per usual.
+                onModelLoaded(object);
+            }
+        }
+
         // The static environment inside. It doesn't get animated at any
         // point and requires only one mesh. Consider using glTF for faster
         // loading.
-        fbxLoader.load("./content/sm_hovel_interior_static.fbx", (object) => {
-            this.scene.add(object);
-        });
+        fbxLoader.load("./content/sm_hovel_interior_static.fbx", onModelLoaded);
+
+        // Load dynamic actors and add to the dynamic actors list.
+        fbxLoader.load("./sm_cradle.fbx", onDynamicModelLoaded("cradle"));
 
         // Load audio for later usage.
         // const audioLoader = new THREE.AudioLoader();
