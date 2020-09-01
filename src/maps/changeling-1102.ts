@@ -66,10 +66,14 @@ export class ChangelingWorld extends FolkWorldBase {
         this.timeline.nextPoint();
 
         // Bind clicks to maneuver the timeline.
+        const onNextShot = () => { this.timeline.nextPoint(); };
         GameplayStatics.gameEngine.inputMappings.bindAction(
             "NextShot",
             EInputEvent.PRESSED,
-            () => { this.timeline.nextPoint(); });
+            () => { onNextShot(); });
+
+        // Also add touch support.
+        document.body.addEventListener("touchend", () => { onNextShot(); });
     }
 
     /**
