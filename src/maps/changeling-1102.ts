@@ -18,7 +18,7 @@ export class ChangelingWorld extends FolkWorldBase {
     fadeUpDuration: number = 2;
 
     /** Whether to prevent the title card and splash screen. */
-    readonly noLogo: boolean = false;
+    readonly noLogo: boolean = true;
 
     /** Timeline for shots in the world. */
     private timeline: Timeline;
@@ -89,12 +89,37 @@ export class ChangelingWorld extends FolkWorldBase {
 
         // Add shots.
         this.timeline.points = [
+            // temp positioning
             {
                 actorID: "camera",
                 loc: new THREE.Vector3(0, 100, -150),
                 rot: new THREE.Euler(0, Math.PI, 0)
-            }
+            },
+
+            {
+                actorID: "camera",
+                loc: new THREE.Vector3(0, 100, -150),
+                rot: new THREE.Euler(0, Math.PI, 0)
+            },
         ];
+
+        if (this.noLogo) {
+            // this actually means "editor mode".
+            // create the camera positioner widgets.
+            const set = () => {
+                this.camera.position.set($("#lx").val() as number,$("#ly").val() as number,$("#lz").val() as number);
+                this.camera.rotation.set($("#rx").val() as number,$("#ry").val() as number,$("#rz").val() as number);
+            };
+            $(document.body).append($(`<div class="fixed-top">`)
+            .append(
+                $(`<input id="lx" type="number">`).change(set),
+                $(`<input id="ly" type="number">`).change(set),
+                $(`<input id="lz" type="number">`).change(set),
+                $(`<input id="rx" type="number">`).change(set),
+                $(`<input id="ry" type="number">`).change(set),
+                $(`<input id="rz" type="number">`).change(set)
+            ));
+        }
     }
 
 
