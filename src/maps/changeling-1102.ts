@@ -44,7 +44,7 @@ export class ChangelingWorld extends FolkWorldBase {
 
             // Test the title card system. (after the fade in)
             setTimeout(() => {
-                const titleCard = new TitleCard("https://th.bing.com/th/id/OIP.w_f-Z3fiVUyUe3m_rg2DJgHaFj?pid=Api&rs=1");
+                const titleCard = new TitleCard("./content/t_changeling1102_titleCard.png");
                 titleCard.animate();
             }, this.fadeUpDuration * 1000 + 2000);
         }
