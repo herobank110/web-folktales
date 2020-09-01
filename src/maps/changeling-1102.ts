@@ -3,6 +3,7 @@ import { ScreenCover } from "../changeling-1102/screenFade.js";
 import { TitleCard } from "../changeling-1102/titleCard.js";
 import { FolkWorldBase, makeTick } from "../core/world.js";
 import { FBXLoader } from "/folktales/include/three/examples/jsm/loaders/FBXLoader.js";
+import { Timeline, TimelinePoint } from "../changeling-1102/timeline.js";
 var THREE = window["THREE"];
 
 /**
@@ -18,7 +19,10 @@ export class ChangelingWorld extends FolkWorldBase {
     /** Whether to prevent the title card and splash screen. */
     readonly noLogo: boolean = false;
 
-    beginPlay() {
+    /** Timeline for shots in the world. */
+    private timeline: Timeline;
+
+    public beginPlay() {
         super.beginPlay();
 
         // Load all content (latent action!)
@@ -52,10 +56,33 @@ export class ChangelingWorld extends FolkWorldBase {
         // Create the audio mixer in the world (2D non-spatial audio only.)
         this.audioMixer = this.spawnActor(SoundMixer2D, [0, 0]);
 
-        // Move the camera to the initial position.
-        this.camera.position.y = 100;
-        this.camera.position.z = -150;
-        this.camera.rotation.y = Math.PI;
+        // Create the timeline and add story points in shots.
+        this.timeline = new Timeline();
+        this.createShots();
+
+        // Go to the initial position.
+        this.timeline.nextPoint();
+    }
+
+    /**
+     * Add shots to the timeline object.
+     * 
+     * Must be valid.
+     */
+    private createShots() {
+        // Add the camera made by the FolkWorldBase.
+        this.timeline.actorMap.set("camera", this.camera);
+
+        // TODO: Add other dynamic meshes also.
+
+        // Add shots.
+        this.timeline.points = [
+            {
+                actorID: "camera",
+                loc: new THREE.Vector3(0, 100, -150),
+                rot: new THREE.Euler(0, Math.PI, 0)
+            }
+        ];
     }
 
     /**
@@ -67,7 +94,7 @@ export class ChangelingWorld extends FolkWorldBase {
     private downloadContent() {
         const fbxLoader = new FBXLoader();
 
-        const onModelLoaded = (object)  => {
+        const onModelLoaded = (object) => {
             this.scene.add(object);
         };
 
