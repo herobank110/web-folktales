@@ -4,6 +4,7 @@ import { TitleCard } from "../changeling-1102/titleCard.js";
 import { FolkWorldBase, makeTick } from "../core/world.js";
 import { FBXLoader } from "/folktales/include/three/examples/jsm/loaders/FBXLoader.js";
 import { Timeline, TimelinePoint } from "../changeling-1102/timeline.js";
+import { GameplayStatics, EInputEvent } from "/folktales/include/factorygame/factorygame.js";
 var THREE = window["THREE"];
 
 /**
@@ -59,9 +60,16 @@ export class ChangelingWorld extends FolkWorldBase {
         // Create the timeline and add story points in shots.
         this.timeline = new Timeline();
         this.createShots();
+        this.timeline.onFinished = this.onTimelineFinished;
 
         // Go to the initial position.
         this.timeline.nextPoint();
+
+        // Bind clicks to maneuver the timeline.
+        GameplayStatics.gameEngine.inputMappings.bindAction(
+            "NextShot",
+            EInputEvent.PRESSED,
+            () => { this.timeline.nextPoint(); });
     }
 
     /**
@@ -84,6 +92,7 @@ export class ChangelingWorld extends FolkWorldBase {
             }
         ];
     }
+
 
     /**
      * Downloads and places content in the scene.
@@ -123,5 +132,12 @@ export class ChangelingWorld extends FolkWorldBase {
         //     // Save a reference to the buffer when loaded.
         //     this.testingAudioCue = buffer;
         // });
+    }
+
+    /**
+     * Called when the user clicks past the end of the timeline.
+     */
+    public onTimelineFinished() {
+        throw new Error("timeline finished not implemented")
     }
 }
