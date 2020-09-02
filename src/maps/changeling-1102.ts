@@ -151,10 +151,16 @@ export class ChangelingWorld extends FolkWorldBase {
 
         const onDynamicModelLoaded = (objectID: string) => {
             return (object) => {
-                // TODO: Add to the dynamic actors list.
+                // Add to the dynamic actors list.
+                if (this.timeline === undefined){
+                    throw new Error("timeline not defined before loading objects");
+                }
+                // TODO: Not sure if this will be the same lambda object for all calls.
+                this.timeline.actorMap[objectID] = object;
+
                 // Add to scene as per usual.
                 onModelLoaded(object);
-            }
+            };
         };
 
         // The static environment inside. It doesn't get animated at any
