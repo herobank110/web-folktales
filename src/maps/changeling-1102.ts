@@ -111,8 +111,8 @@ export class ChangelingWorld extends FolkWorldBase {
             // Shot 1 - 3
             { keys: [{
                 actorID: "camera",
-                loc: new THREE.Vector3(18, 95, 168),
-                rot: new THREE.Euler(-0.2, 6.5, 0)
+                loc: new THREE.Vector3(-15, 48, 28),
+                rot: new THREE.Euler(0, -1.3, 0)
             }]},
         ];
 
