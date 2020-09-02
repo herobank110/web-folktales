@@ -89,18 +89,31 @@ export class ChangelingWorld extends FolkWorldBase {
 
         // Add shots.
         this.timeline.points = [
-            // temp positioning
-            {
+            // initial position: shots A and B
+            { keys: [{
                 actorID: "camera",
                 loc: new THREE.Vector3(0, 100, -150),
                 rot: new THREE.Euler(0, Math.PI, 0)
-            },
+            }]},
 
-            {
+            // Shot 1 - 1
+            { keys: [{
                 actorID: "camera",
-                loc: new THREE.Vector3(0, 100, -150),
-                rot: new THREE.Euler(0, Math.PI, 0)
-            },
+                loc: new THREE.Vector3(61, 130, 630),
+                rot: new THREE.Euler(-0.1, 6.8, 0.05)
+            }]},
+            // Shot 1 - 2
+            { keys: [{
+                actorID: "camera",
+                loc: new THREE.Vector3(18, 95, 168),
+                rot: new THREE.Euler(-0.2, 6.5, 0)
+            }]},
+            // Shot 1 - 3
+            { keys: [{
+                actorID: "camera",
+                loc: new THREE.Vector3(-15, 48, 28),
+                rot: new THREE.Euler(0, -1.3, 0)
+            }]},
         ];
 
         if (this.noLogo) {
@@ -138,10 +151,16 @@ export class ChangelingWorld extends FolkWorldBase {
 
         const onDynamicModelLoaded = (objectID: string) => {
             return (object) => {
-                // TODO: Add to the dynamic actors list.
+                // Add to the dynamic actors list.
+                if (this.timeline === undefined){
+                    throw new Error("timeline not defined before loading objects");
+                }
+                // TODO: Not sure if this will be the same lambda object for all calls.
+                this.timeline.actorMap[objectID] = object;
+
                 // Add to scene as per usual.
                 onModelLoaded(object);
-            }
+            };
         };
 
         // The static environment inside. It doesn't get animated at any

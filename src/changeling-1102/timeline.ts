@@ -1,7 +1,7 @@
 var THREE = window["THREE"];
 
-/** Point on a timeline for an actor. */
-export interface TimelinePoint {
+/** Animatedly properties for an actor. */
+export interface ActorKeyframe {
     /** Key in actorMap to apply values to. */
     readonly actorID: string;
     /** Location in world space. */
@@ -10,6 +10,12 @@ export interface TimelinePoint {
     readonly rot?: THREE.Euler;
     /** Whether the object should be visible. */
     readonly visible?: boolean;
+}
+
+/** Point on a timeline containing actor states. */
+export interface TimelinePoint {
+    /** Actor states to update at this point. */
+    keys: Array<ActorKeyframe>;
 }
 
 /** Timeline for controlling actors. */
@@ -36,12 +42,14 @@ export class Timeline {
         if (this.timelineIndex < this.points.length) {
             // valid point
             const tp = this.points[this.timelineIndex];
-            const actor = this.actorMap.get(tp.actorID);
-            if (actor !== undefined) {
-                if (tp.loc !== undefined) { actor.position.copy(tp.loc); }
-                if (tp.rot !== undefined) { actor.rotation.copy(tp.rot);}
-                if (tp.visible !== undefined) { actor.visible = tp.visible; }
-            }
+            tp.keys.forEach((keyframe) => {
+                const actor = this.actorMap.get(keyframe.actorID);
+                if (actor !== undefined) {
+                    if (keyframe.loc !== undefined) { actor.position.copy(keyframe.loc); }
+                    if (keyframe.rot !== undefined) { actor.rotation.copy(keyframe.rot); }
+                    if (keyframe.visible !== undefined) { actor.visible = keyframe.visible; }
+                }
+            });
         } else {
             // game over
             // Counteract the increment above.
