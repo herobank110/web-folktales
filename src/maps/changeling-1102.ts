@@ -102,9 +102,6 @@ export class ChangelingWorld extends FolkWorldBase {
             // { actorID: "elf1_pose_neutral", visible: false },
             // { actorID: "elf2_pose_neutral", visible: false },
             // { actorID: "elf3_pose_neutral", visible: false },
-            { actorID: "elf1_pose_neutral", loc: new THREE.Vector3(0,0,0) },
-            { actorID: "elf2_pose_neutral", loc: new THREE.Vector3(49,0,0) },
-            { actorID: "elf3_pose_neutral", loc: new THREE.Vector3(90,0,0) },
             ]},
 
             // Shot 1 - 1
@@ -113,7 +110,10 @@ export class ChangelingWorld extends FolkWorldBase {
                 actorID: "camera",
                 loc: new THREE.Vector3(61, 130, 630),
                 rot: new THREE.Euler(-0.1, 6.8, 0.05)
-            }]},
+            },
+            { actorID: "elf1_pose_neutral", loc: new THREE.Vector3(0,0,0) },
+            { actorID: "elf2_pose_neutral", loc: new THREE.Vector3(49,0,0) },
+            { actorID: "elf3_pose_neutral", loc: new THREE.Vector3(-49,0,0) },]},
             // Shot 1 - 2
             { keys: [{
                 actorID: "camera",
@@ -132,11 +132,15 @@ export class ChangelingWorld extends FolkWorldBase {
             // this actually means "editor mode".
             // create the camera positioner widgets.
             const set = () => {
-                this.camera.position.set($("#lx").val() as number,$("#ly").val() as number,$("#lz").val() as number);
-                this.camera.rotation.set($("#rx").val() as number,$("#ry").val() as number,$("#rz").val() as number);
+                const obj = this.timeline.actorMap.get($("#tt").val());
+                obj.position.set($("#lx").val() as number,$("#ly").val() as number,$("#lz").val() as number);
+                obj.rotation.set($("#rx").val() as number,$("#ry").val() as number,$("#rz").val() as number);
+                console.log(obj.position, obj.rotation);
+                console.log(this.timeline.actorMap);
             };
             $(document.body).append($(`<div class="fixed-top">`)
             .append(
+                $(`<input id="tt">`).change(set).val("camera"),
                 $(`<input id="lx" type="number">`).change(set),
                 $(`<input id="ly" type="number">`).change(set),
                 $(`<input id="lz" type="number">`).change(set),
@@ -161,24 +165,31 @@ export class ChangelingWorld extends FolkWorldBase {
             this.scene.add(object);
         };
 
-        const onDynamicModelLoaded = (objectID: string, ...cloneIds: string[]) => {
-            return (object: THREE.Object3D) => {
+        const onDynamicModelLoaded = (objectIDp: string, ...cloneIDsp: string[]) => {
+            return (object: THREE.Object3D, objectID = objectIDp, cloneIds = cloneIDsp) => {
                 // Add to the dynamic actors list.
                 if (this.timeline === undefined){
                     throw new Error("timeline not defined before loading objects");
                 }
                 // TODO: Not sure if this will be the same lambda object for all calls.
-                this.timeline.actorMap[objectID] = object;
+                this.timeline.actorMap.set(objectID, object);
 
                 // Add to scene as per usual.
                 onModelLoaded(object);
 
                 // Assign clone IDs clones of the object.
+                console.log(`clones: ${cloneIds}`);
+                
                 cloneIds.forEach((cloneId) => {
                     // Recursive clone - is this necessary?
                     // at least it's not downloading the mesh
                     const cloneObject = object.clone(true);
-                    this.timeline.actorMap[cloneId] = cloneObject;
+                    this.timeline.actorMap.set(cloneId, cloneObject);
+                    console.log(cloneObject);
+                    
+
+                    // Ensure the object is in the scene!
+                    this.scene.add(cloneObject);
                 });
             };
         };
