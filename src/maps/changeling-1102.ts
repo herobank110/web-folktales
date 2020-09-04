@@ -178,15 +178,11 @@ export class ChangelingWorld extends FolkWorldBase {
                 onModelLoaded(object);
 
                 // Assign clone IDs clones of the object.
-                console.log(`clones: ${cloneIds}`);
-                
                 cloneIds.forEach((cloneId) => {
                     // Recursive clone - is this necessary?
                     // at least it's not downloading the mesh
                     const cloneObject = object.clone(true);
                     this.timeline.actorMap.set(cloneId, cloneObject);
-                    console.log(cloneObject);
-                    
 
                     // Ensure the object is in the scene!
                     this.scene.add(cloneObject);
