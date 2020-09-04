@@ -94,9 +94,21 @@ export class ChangelingWorld extends FolkWorldBase {
                 actorID: "camera",
                 loc: new THREE.Vector3(0, 100, -150),
                 rot: new THREE.Euler(0, Math.PI, 0)
-            }]},
+            },
+            // hide all the elf poses at the start
+            // { actorID: "elf1_pose_a", visible: false },
+            // { actorID: "elf2_pose_a", visible: false },
+            // { actorID: "elf3_pose_a", visible: false },
+            // { actorID: "elf1_pose_neutral", visible: false },
+            // { actorID: "elf2_pose_neutral", visible: false },
+            // { actorID: "elf3_pose_neutral", visible: false },
+            { actorID: "elf1_pose_neutral", loc: new THREE.Vector3(0,0,0) },
+            { actorID: "elf2_pose_neutral", loc: new THREE.Vector3(49,0,0) },
+            { actorID: "elf3_pose_neutral", loc: new THREE.Vector3(90,0,0) },
+            ]},
 
             // Shot 1 - 1
+            // TODO: This shot has wrong location
             { keys: [{
                 actorID: "camera",
                 loc: new THREE.Vector3(61, 130, 630),
@@ -149,8 +161,8 @@ export class ChangelingWorld extends FolkWorldBase {
             this.scene.add(object);
         };
 
-        const onDynamicModelLoaded = (objectID: string) => {
-            return (object) => {
+        const onDynamicModelLoaded = (objectID: string, ...cloneIds: string[]) => {
+            return (object: THREE.Object3D) => {
                 // Add to the dynamic actors list.
                 if (this.timeline === undefined){
                     throw new Error("timeline not defined before loading objects");
@@ -160,6 +172,14 @@ export class ChangelingWorld extends FolkWorldBase {
 
                 // Add to scene as per usual.
                 onModelLoaded(object);
+
+                // Assign clone IDs clones of the object.
+                cloneIds.forEach((cloneId) => {
+                    // Recursive clone - is this necessary?
+                    // at least it's not downloading the mesh
+                    const cloneObject = object.clone(true);
+                    this.timeline.actorMap[cloneId] = cloneObject;
+                });
             };
         };
 
@@ -169,10 +189,12 @@ export class ChangelingWorld extends FolkWorldBase {
         fbxLoader.load("./content/sm_hovel_interior_static.fbx", onModelLoaded);
 
         // Load dynamic actors and add to the dynamic actors list.
-        fbxLoader.load("./content/sm_cradle.fbx", (object) => {
-            onDynamicModelLoaded("cradle")(object);
-            makeTick((dt) => { object.rotateY(Math.PI * dt * 0.2); });
-        });
+        fbxLoader.load("./content/sm_cradle.fbx", onDynamicModelLoaded("cradle"));
+
+        fbxLoader.load("./content/sm_elf_pose_a.fbx",
+            onDynamicModelLoaded("elf1_pose_a", "elf2_pose_a", "elf3_pose_a"));
+        fbxLoader.load("./content/sm_elf_pose_neutral.fbx",
+            onDynamicModelLoaded("elf1_pose_neutral", "elf2_pose_neutral", "elf3_pose_neutral"));
 
         // Load audio for later usage.
         // const audioLoader = new THREE.AudioLoader();
