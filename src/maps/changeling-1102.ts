@@ -113,7 +113,8 @@ export class ChangelingWorld extends FolkWorldBase {
             },
             { actorID: "elf1_pose_neutral", loc: new THREE.Vector3(0,0,0) },
             { actorID: "elf2_pose_neutral", loc: new THREE.Vector3(49,0,0) },
-            { actorID: "elf3_pose_neutral", loc: new THREE.Vector3(-49,0,0) },]},
+            { actorID: "elf3_pose_neutral", loc: new THREE.Vector3(-49,0,0) },
+            { actorID: "elf_hand", loc: new THREE.Vector3(0,50,0) },]},
             // Shot 1 - 2
             { keys: [{
                 actorID: "camera",
@@ -202,6 +203,7 @@ export class ChangelingWorld extends FolkWorldBase {
             onDynamicModelLoaded("elf1_pose_a", "elf2_pose_a", "elf3_pose_a"));
         fbxLoader.load("./content/sm_elf_pose_neutral.fbx",
             onDynamicModelLoaded("elf1_pose_neutral", "elf2_pose_neutral", "elf3_pose_neutral"));
+        fbxLoader.load("./content/sm_elf_hand.fbx", onDynamicModelLoaded("elf_hand"));
 
         // Load audio for later usage.
         // const audioLoader = new THREE.AudioLoader();
