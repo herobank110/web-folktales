@@ -90,43 +90,54 @@ export class ChangelingWorld extends FolkWorldBase {
         // Add shots.
         this.timeline.points = [
             // initial position: shots A and B
-            { keys: [{
-                actorID: "camera",
-                loc: new THREE.Vector3(0, 100, -150),
-                rot: new THREE.Euler(0, Math.PI, 0)
+            {
+                keys: [{
+                    actorID: "camera",
+                    loc: new THREE.Vector3(0, 100, -150),
+                    rot: new THREE.Euler(0, Math.PI, 0)
+                },
+                    // hide all the elf poses at the start
+                    // { actorID: "elf1_pose_a", visible: false },
+                    // { actorID: "elf2_pose_a", visible: false },
+                    // { actorID: "elf3_pose_a", visible: false },
+                    // { actorID: "elf1_pose_neutral", visible: false },
+                    // { actorID: "elf2_pose_neutral", visible: false },
+                    // { actorID: "elf3_pose_neutral", visible: false },
+                ]
             },
-            // hide all the elf poses at the start
-            // { actorID: "elf1_pose_a", visible: false },
-            // { actorID: "elf2_pose_a", visible: false },
-            // { actorID: "elf3_pose_a", visible: false },
-            // { actorID: "elf1_pose_neutral", visible: false },
-            // { actorID: "elf2_pose_neutral", visible: false },
-            // { actorID: "elf3_pose_neutral", visible: false },
-            ]},
 
             // Shot 1 - 1
             // TODO: This shot has wrong location
-            { keys: [{
-                actorID: "camera",
-                loc: new THREE.Vector3(61, 130, 630),
-                rot: new THREE.Euler(-0.1, 6.8, 0.05)
+            {
+                keys: [{
+                    actorID: "camera",
+                    loc: new THREE.Vector3(61, 130, 630),
+                    rot: new THREE.Euler(-0.1, 6.8, 0.05)
+                },
+                { actorID: "elf1_pose_neutral", loc: new THREE.Vector3(0, 0, 0) },
+                { actorID: "elf2_pose_neutral", loc: new THREE.Vector3(49, 0, 0) },
+                { actorID: "elf3_pose_neutral", loc: new THREE.Vector3(-49, 0, 0) },
+                { actorID: "elf_hand", loc: new THREE.Vector3(0, 50, 0) },
+                { actorID: "mother_pose_neutral", loc: new THREE.Vector3(-50, 0, 100) },
+                { actorID: "mother_pose_kneel", loc: new THREE.Vector3(-50, 0, 200) },
+                ]
             },
-            { actorID: "elf1_pose_neutral", loc: new THREE.Vector3(0,0,0) },
-            { actorID: "elf2_pose_neutral", loc: new THREE.Vector3(49,0,0) },
-            { actorID: "elf3_pose_neutral", loc: new THREE.Vector3(-49,0,0) },
-            { actorID: "elf_hand", loc: new THREE.Vector3(0,50,0) },]},
             // Shot 1 - 2
-            { keys: [{
-                actorID: "camera",
-                loc: new THREE.Vector3(18, 95, 168),
-                rot: new THREE.Euler(-0.2, 6.5, 0)
-            }]},
+            {
+                keys: [{
+                    actorID: "camera",
+                    loc: new THREE.Vector3(18, 95, 168),
+                    rot: new THREE.Euler(-0.2, 6.5, 0)
+                }]
+            },
             // Shot 1 - 3
-            { keys: [{
-                actorID: "camera",
-                loc: new THREE.Vector3(-15, 48, 28),
-                rot: new THREE.Euler(0, -1.3, 0)
-            }]},
+            {
+                keys: [{
+                    actorID: "camera",
+                    loc: new THREE.Vector3(-15, 48, 28),
+                    rot: new THREE.Euler(0, -1.3, 0)
+                }]
+            },
         ];
 
         if (this.noLogo) {
@@ -134,21 +145,19 @@ export class ChangelingWorld extends FolkWorldBase {
             // create the camera positioner widgets.
             const set = () => {
                 const obj = this.timeline.actorMap.get($("#tt").val());
-                obj.position.set($("#lx").val() as number,$("#ly").val() as number,$("#lz").val() as number);
-                obj.rotation.set($("#rx").val() as number,$("#ry").val() as number,$("#rz").val() as number);
-                console.log(obj.position, obj.rotation);
-                console.log(this.timeline.actorMap);
+                obj.position.set($("#lx").val() as number, $("#ly").val() as number, $("#lz").val() as number);
+                obj.rotation.set($("#rx").val() as number, $("#ry").val() as number, $("#rz").val() as number);
             };
             $(document.body).append($(`<div class="fixed-top">`)
-            .append(
-                $(`<input id="tt">`).change(set).val("camera"),
-                $(`<input id="lx" type="number">`).change(set),
-                $(`<input id="ly" type="number">`).change(set),
-                $(`<input id="lz" type="number">`).change(set),
-                $(`<input id="rx" type="number">`).change(set),
-                $(`<input id="ry" type="number">`).change(set),
-                $(`<input id="rz" type="number">`).change(set)
-            ));
+                .append(
+                    $(`<input id="tt">`).change(set).val("camera"),
+                    $(`<input id="lx" type="number">`).change(set),
+                    $(`<input id="ly" type="number">`).change(set),
+                    $(`<input id="lz" type="number">`).change(set),
+                    $(`<input id="rx" type="number">`).change(set),
+                    $(`<input id="ry" type="number">`).change(set),
+                    $(`<input id="rz" type="number">`).change(set)
+                ));
         }
     }
 
@@ -169,7 +178,7 @@ export class ChangelingWorld extends FolkWorldBase {
         const onDynamicModelLoaded = (objectIDp: string, ...cloneIDsp: string[]) => {
             return (object: THREE.Object3D, objectID = objectIDp, cloneIds = cloneIDsp) => {
                 // Add to the dynamic actors list.
-                if (this.timeline === undefined){
+                if (this.timeline === undefined) {
                     throw new Error("timeline not defined before loading objects");
                 }
                 // TODO: Not sure if this will be the same lambda object for all calls.
@@ -199,11 +208,18 @@ export class ChangelingWorld extends FolkWorldBase {
         // Load dynamic actors and add to the dynamic actors list.
         fbxLoader.load("./content/sm_cradle.fbx", onDynamicModelLoaded("cradle"));
 
+        // Elf poses
         fbxLoader.load("./content/sm_elf_pose_a.fbx",
             onDynamicModelLoaded("elf1_pose_a", "elf2_pose_a", "elf3_pose_a"));
         fbxLoader.load("./content/sm_elf_pose_neutral.fbx",
             onDynamicModelLoaded("elf1_pose_neutral", "elf2_pose_neutral", "elf3_pose_neutral"));
         fbxLoader.load("./content/sm_elf_hand.fbx", onDynamicModelLoaded("elf_hand"));
+
+        // Woman poses
+        fbxLoader.load("./content/sm_woman_pose_neutral.fbx",
+            onDynamicModelLoaded("mother_pose_neutral", "neighbor_pose_neutral"));
+        fbxLoader.load("./content/sm_woman_pose_kneel.fbx",
+            onDynamicModelLoaded("mother_pose_kneel"));
 
         // Load audio for later usage.
         // const audioLoader = new THREE.AudioLoader();
