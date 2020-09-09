@@ -199,6 +199,7 @@ export class ChangelingWorld extends FolkWorldBase {
         // Load dynamic actors and add to the dynamic actors list.
         fbxLoader.load("./content/sm_cradle.fbx", onDynamicModelLoaded("cradle"));
         fbxLoader.load("./content/sm_baby.fbx", onDynamicModelLoaded("baby"));
+        fbxLoader.load("./content/sm_changeling.fbx", onDynamicModelLoaded("changeling"));
 
         fbxLoader.load("./content/sm_elf_pose_a.fbx",
             onDynamicModelLoaded("elf1_pose_a", "elf2_pose_a", "elf3_pose_a"));
