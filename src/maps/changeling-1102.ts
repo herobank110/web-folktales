@@ -200,6 +200,9 @@ export class ChangelingWorld extends FolkWorldBase {
         fbxLoader.load("./content/sm_cradle.fbx", onDynamicModelLoaded("cradle"));
         fbxLoader.load("./content/sm_baby.fbx", onDynamicModelLoaded("baby"));
         fbxLoader.load("./content/sm_changeling.fbx", onDynamicModelLoaded("changeling"));
+        fbxLoader.load("./content/sm_egg_whole.fbx", onDynamicModelLoaded("egg_whole"));
+        fbxLoader.load("./content/sm_egg_shell1.fbx", onDynamicModelLoaded("egg_shell1"));
+        fbxLoader.load("./content/sm_egg_shell2.fbx", onDynamicModelLoaded("egg_shell2"));
 
         fbxLoader.load("./content/sm_elf_pose_a.fbx",
             onDynamicModelLoaded("elf1_pose_a", "elf2_pose_a", "elf3_pose_a"));
