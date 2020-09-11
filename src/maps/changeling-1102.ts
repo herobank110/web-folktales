@@ -23,6 +23,9 @@ export class ChangelingWorld extends FolkWorldBase {
     /** Timeline for shots in the world. */
     private timeline: Timeline;
 
+    /** Cover for the screen fades and dips. */
+    private screenCover: ScreenCover;
+
     public beginPlay() {
         super.beginPlay();
 
@@ -39,12 +42,12 @@ export class ChangelingWorld extends FolkWorldBase {
 
         if (!this.noLogo) {
             // Create the screen cover and make it black initially.
-            const screenCover = this.spawnActor(ScreenCover, [0, 0]);
+            this.screenCover = this.spawnActor(ScreenCover, [0, 0]);
             // Start the fade up after a second of black.
-            screenCover.setColor("#000000");
-            screenCover.setOpacity(1);
+            this.screenCover.setColor("#000000");
+            this.screenCover.setOpacity(1);
             setTimeout(() => {
-                screenCover.startAccumulatedFade("#000000", 1.0, "#000000", 0.0, this.fadeUpDuration);
+                this.screenCover.startAccumulatedFade("#000000", 1.0, "#000000", 0.0, this.fadeUpDuration);
             }, 1000);
 
             // Test the title card system. (after the fade in)
@@ -62,11 +65,18 @@ export class ChangelingWorld extends FolkWorldBase {
         this.createShots();
         this.timeline.onFinished = this.onTimelineFinished;
 
-        // Go to the initial position.
-        this.timeline.nextPoint();
-
         // Bind clicks to maneuver the timeline.
-        const onNextShot = () => { this.timeline.nextPoint(); };
+        let isFirstClick = true;
+        const onNextShot = () => {
+            this.timeline.nextPoint();
+            if (isFirstClick) {
+                // Perform dip to white on first click.
+                isFirstClick = false;
+                if (!this.noLogo) {
+                    this.screenCover.dipToWhite(1000);
+                }
+            }
+        };
         GameplayStatics.gameEngine.inputMappings.bindAction(
             "NextShot",
             EInputEvent.PRESSED,
@@ -74,6 +84,10 @@ export class ChangelingWorld extends FolkWorldBase {
 
         // Also add touch support.
         document.body.addEventListener("touchend", () => { onNextShot(); });
+
+        // Go to the initial position.
+        // TODO: make this a start button
+        setTimeout(() => { this.timeline.nextPoint(); }, 100);
     }
 
     /**
@@ -88,45 +102,41 @@ export class ChangelingWorld extends FolkWorldBase {
         // TODO: Add other dynamic meshes also.
 
         // Add shots.
+        const vec = THREE.Vector3;
+        const rot = THREE.Euler;
         this.timeline.points = [
             // initial position: shots A and B
-            { keys: [{
-                actorID: "camera",
-                loc: new THREE.Vector3(0, 100, -150),
-                rot: new THREE.Euler(0, Math.PI, 0)
+            {
+                keys: [
+                    { actorID: "camera", loc: new vec(0, 100, -150), rot: new rot(0, Math.PI) },
+                    { actorID: "cradle", loc: new vec(43, 0, 83), rot: new rot(0, -1) },
+                    { actorID: "baby", loc: new vec(22, 13, 86), rot: new rot(-1.2, 0.01, -1.4) },
+                    // hide all the elf poses at the start
+                    // { actorID: "elf1_pose_a", visible: false },
+                    // { actorID: "elf2_pose_a", visible: false },
+                    // { actorID: "elf3_pose_a", visible: false },
+                    // { actorID: "elf1_pose_neutral", visible: false },
+                    // { actorID: "elf2_pose_neutral", visible: false },
+                    // { actorID: "elf3_pose_neutral", visible: false },
+                ]
             },
-            // hide all the elf poses at the start
-            // { actorID: "elf1_pose_a", visible: false },
-            // { actorID: "elf2_pose_a", visible: false },
-            // { actorID: "elf3_pose_a", visible: false },
-            // { actorID: "elf1_pose_neutral", visible: false },
-            // { actorID: "elf2_pose_neutral", visible: false },
-            // { actorID: "elf3_pose_neutral", visible: false },
-            ]},
 
-            // Shot 1 - 1
-            // TODO: This shot has wrong location
-            { keys: [{
-                actorID: "camera",
-                loc: new THREE.Vector3(61, 130, 630),
-                rot: new THREE.Euler(-0.1, 6.8, 0.05)
+            // Shot 1 - 1 - LS establish mise en scene
+            {
+                keys: [{
+                    actorID: "camera",
+                    loc: new vec(61, 130, 230),
+                    rot: new rot(-0.1, 6.8, 0.05)
+                },
+                { actorID: "elf1_pose_neutral", loc: new vec() },
+                { actorID: "elf2_pose_neutral", loc: new vec(49) },
+                { actorID: "elf3_pose_neutral", loc: new vec(-49) },
+                { actorID: "elf_hand", loc: new vec(0, 50, 0) },]
             },
-            { actorID: "elf1_pose_neutral", loc: new THREE.Vector3(0,0,0) },
-            { actorID: "elf2_pose_neutral", loc: new THREE.Vector3(49,0,0) },
-            { actorID: "elf3_pose_neutral", loc: new THREE.Vector3(-49,0,0) },
-            { actorID: "elf_hand", loc: new THREE.Vector3(0,50,0) },]},
             // Shot 1 - 2
-            { keys: [{
-                actorID: "camera",
-                loc: new THREE.Vector3(18, 95, 168),
-                rot: new THREE.Euler(-0.2, 6.5, 0)
-            }]},
-            // Shot 1 - 3
-            { keys: [{
-                actorID: "camera",
-                loc: new THREE.Vector3(-15, 48, 28),
-                rot: new THREE.Euler(0, -1.3, 0)
-            }]},
+            { keys: [{ actorID: "camera", loc: new vec(18, 95, 168), rot: new rot(-0.2, 6.5) }] },
+            // Shot 1 - 3 - MCU HA looking at baby over crib
+            { keys: [{ actorID: "camera", loc: new vec(43, 41, 113), rot: new rot(-0.6) }] },
         ];
 
         if (this.noLogo) {
@@ -134,21 +144,21 @@ export class ChangelingWorld extends FolkWorldBase {
             // create the camera positioner widgets.
             const set = () => {
                 const obj = this.timeline.actorMap.get($("#tt").val());
-                obj.position.set($("#lx").val() as number,$("#ly").val() as number,$("#lz").val() as number);
-                obj.rotation.set($("#rx").val() as number,$("#ry").val() as number,$("#rz").val() as number);
+                obj.position.set($("#lx").val() as number, $("#ly").val() as number, $("#lz").val() as number);
+                obj.rotation.set($("#rx").val() as number, $("#ry").val() as number, $("#rz").val() as number);
                 console.log(obj.position, obj.rotation);
                 console.log(this.timeline.actorMap);
             };
             $(document.body).append($(`<div class="fixed-top">`)
-            .append(
-                $(`<input id="tt">`).change(set).val("camera"),
-                $(`<input id="lx" type="number">`).change(set),
-                $(`<input id="ly" type="number">`).change(set),
-                $(`<input id="lz" type="number">`).change(set),
-                $(`<input id="rx" type="number">`).change(set),
-                $(`<input id="ry" type="number">`).change(set),
-                $(`<input id="rz" type="number">`).change(set)
-            ));
+                .append(
+                    $(`<input id="tt">`).change(set).val("camera"),
+                    $(`<input id="lx" type="number">`).change(set),
+                    $(`<input id="ly" type="number">`).change(set),
+                    $(`<input id="lz" type="number">`).change(set),
+                    $(`<input id="rx" type="number">`).change(set),
+                    $(`<input id="ry" type="number">`).change(set),
+                    $(`<input id="rz" type="number">`).change(set)
+                ));
         }
     }
 
@@ -169,7 +179,7 @@ export class ChangelingWorld extends FolkWorldBase {
         const onDynamicModelLoaded = (objectIDp: string, ...cloneIDsp: string[]) => {
             return (object: THREE.Object3D, objectID = objectIDp, cloneIds = cloneIDsp) => {
                 // Add to the dynamic actors list.
-                if (this.timeline === undefined){
+                if (this.timeline === undefined) {
                     throw new Error("timeline not defined before loading objects");
                 }
                 // TODO: Not sure if this will be the same lambda object for all calls.
