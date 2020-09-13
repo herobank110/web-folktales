@@ -118,6 +118,9 @@ export class ChangelingWorld extends FolkWorldBase {
                     // { actorID: "elf1_pose_neutral", visible: false },
                     // { actorID: "elf2_pose_neutral", visible: false },
                     // { actorID: "elf3_pose_neutral", visible: false },
+                    { actorID: "mother_pose_neutral", visible: false },
+                    { actorID: "neighbor_pose_neutral", visible: false },
+                    { actorID: "mother_pose_kneel", visible: false }
                 ]
             },
             // Shot 1 - 1 - LS establish mise en scene
@@ -141,22 +144,36 @@ export class ChangelingWorld extends FolkWorldBase {
         if (this.noLogo) {
             // this actually means "editor mode".
             // create the camera positioner widgets.
-            const set = () => {
+            // Save values in inputs into current values.
+            const save = () => {
                 const obj = this.timeline.actorMap.get($("#tt").val());
                 obj.position.set($("#lx").val() as number, $("#ly").val() as number, $("#lz").val() as number);
                 obj.rotation.set($("#rx").val() as number, $("#ry").val() as number, $("#rz").val() as number);
-                console.log(obj.position, obj.rotation);
-                console.log(this.timeline.actorMap);
+                obj.visible = $("#vz").prop("checked");
             };
+            // Load current values into inputs.
+            const load = () => {
+                const obj = this.timeline.actorMap.get($("#tt").val());
+                if (obj) {
+                    $("#lx").val(obj.position.x || "");
+                    $("#ly").val(obj.position.y || "");
+                    $("#lz").val(obj.position.z || "");
+                    $("#rx").val(obj.rotation.x || "");
+                    $("#ry").val(obj.rotation.y || "");
+                    $("#rz").val(obj.rotation.z || "");
+                    $("#vz").prop("checked", obj.visible);
+                }
+            }
             $(document.body).append($(`<div class="fixed-top">`)
                 .append(
-                    $(`<input id="tt">`).change(set).val("camera"),
-                    $(`<input id="lx" type="number">`).change(set),
-                    $(`<input id="ly" type="number">`).change(set),
-                    $(`<input id="lz" type="number">`).change(set),
-                    $(`<input id="rx" type="number">`).change(set),
-                    $(`<input id="ry" type="number">`).change(set),
-                    $(`<input id="rz" type="number">`).change(set)
+                    $(`<input id="tt">`).change(load).val("camera"),
+                    $(`<input id="lx" type="number">`).change(save),
+                    $(`<input id="ly" type="number">`).change(save),
+                    $(`<input id="lz" type="number">`).change(save),
+                    $(`<input id="rx" type="number">`).change(save),
+                    $(`<input id="ry" type="number">`).change(save),
+                    $(`<input id="rz" type="number">`).change(save),
+                    $(`<input id="vz" type="checkbox">`).change(save)
                 ));
         }
     }
