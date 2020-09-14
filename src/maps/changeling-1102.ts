@@ -87,7 +87,7 @@ export class ChangelingWorld extends FolkWorldBase {
 
         // Go to the initial position.
         // TODO: make this a start button
-        setTimeout(() => { this.timeline.nextPoint(); }, 100);
+        setTimeout(() => { this.timeline.nextPoint(); }, 500);
     }
 
     /**
@@ -125,6 +125,9 @@ export class ChangelingWorld extends FolkWorldBase {
                     hide("mother_pose_kneel"),
                     hide("elf_hand"),
                     hide("changeling"),
+                    hide("egg_whole"),
+                    hide("egg_shell1"),
+                    hide("egg_shell2"),
                 ]
             },
             // Shot 1 - 1 - LS establish mise en scene
@@ -162,36 +165,35 @@ export class ChangelingWorld extends FolkWorldBase {
                     }
                 ]
             },
-
             // Shot 2 - 1 - LS top down of baby
-            {
-                keys: [
-                    {
-                        actorID: "camera",
-                        loc: new vec(47, 145, 79),
-                        rot: new rot(-1.6)
-                    },
-                    {
-                        actorID: "elf1_pose_neutral",
-                        loc: new vec(13, 0, 52),
-                        rot: new rot(0, 0.6),
-                        visible: true
-                    },
-                    {
-                        actorID: "elf2_pose_a",
-                        loc: new vec(-5, 0, 44),
-                        rot: new rot(0, 1.2),
-                        visible: true
-                    },
-                    {
-                        actorID: "elf3_pose_neutral",
-                        loc: new vec(-23, 0, 51),
-                        rot: new rot(0, 2.4),
-                        visible: true
-                    },
-                    hide("elf_hand"),
-                ]
-            },
+            // {
+            //     keys: [
+            //         {
+            //             actorID: "camera",
+            //             loc: new vec(47, 145, 79),
+            //             rot: new rot(-1.6)
+            //         },
+            //         {
+            //             actorID: "elf1_pose_neutral",
+            //             loc: new vec(13, 0, 52),
+            //             rot: new rot(0, 0.6),
+            //             visible: true
+            //         },
+            //         {
+            //             actorID: "elf2_pose_a",
+            //             loc: new vec(-5, 0, 44),
+            //             rot: new rot(0, 1.2),
+            //             visible: true
+            //         },
+            //         {
+            //             actorID: "elf3_pose_neutral",
+            //             loc: new vec(-23, 0, 51),
+            //             rot: new rot(0, 2.4),
+            //             visible: true
+            //         },
+            //         hide("elf_hand"),
+            //     ]
+            // },
             // Shot 2 - 2 - MS elves climbing into cot
             {
                 keys: [
@@ -215,6 +217,7 @@ export class ChangelingWorld extends FolkWorldBase {
                         loc: new vec(19, -3, 44),
                         rot: new rot(0.7, 0.3)
                     },
+                    hide("elf_hand")
                 ]
             },
             // Shot 3 - 1 - LS pull out changeling in crib
@@ -262,6 +265,113 @@ export class ChangelingWorld extends FolkWorldBase {
                     hide("elf2_pose_a"),
                     hide("elf3_pose_neutral"),
                     hide("elf_hand")
+                ]
+            },
+            // Shot 5 - 1 - MS neighbor answering door
+            {
+                keys: [
+                    {
+                        actorID: "camera",
+                        loc: new vec(-1, 131, -157),
+                        rot: new rot(0, -0.5)
+                    },
+                    {
+                        actorID: "mother_pose_neutral",
+                        loc: new vec(47, 0, -244),
+                        rot: new rot(0, -0.2)
+                    },
+                    {
+                        actorID: "neighbor_pose_neutral",
+                        loc: new vec(62, 0, -205),
+                        rot: new rot(0, 3),
+                        visible: true
+                    },
+                ]
+            },
+            // Shot 6 - OS neighbor giving instructions
+            {
+                keys: [
+                    {
+                        actorID: "camera",
+                        loc: new vec(36, 137, -178),
+                        rot: new rot(0, 0.1)
+                    }
+                ]
+            },
+            // Shot 7 - Wide fireplace with items
+            {
+                keys: [
+                    {
+                        actorID: "camera",
+                        loc: new vec(90, 81, -64),
+                        rot: new rot(0, 2)
+                    },
+                    {
+                        actorID: "egg_whole",
+                        loc: new vec(82, 79.2, -48),
+                        visible: true
+                    },
+                ]
+            },
+            // Shot 8 - OS neighbor looking at mother
+            {
+                keys: [
+                    {
+                        actorID: "camera",
+                        loc: new vec(99, 139, -178),
+                        rot: new rot(0, 0.1)
+                    },
+                    {
+                        actorID: "mother_pose_neutral",
+                        loc: new vec(56, 0, -244),
+                        rot: new rot(0, 0.4)
+                    },
+                    {
+                        actorID: "neighbor_pose_neutral",
+                        loc: new vec(62, 0, -203),
+                        rot: new rot(0, 3.3)
+                    }
+                ]
+            },
+            // Shot 9 - Establishing Ex wide of hovel
+            {
+                keys: [
+                    {
+                        actorID: "camera",
+                        loc: new vec(5, 48, -1),
+                        rot: new rot(0, 1.7)
+                    },
+                    {
+                        // TODO export correct poses from maya to avoid lowering mother
+                        actorID: "mother_pose_kneel",
+                        loc: new vec(-35, -85, 36),
+                        rot: new rot(0, -1.6)
+                    },
+                    hide("neighbor_pose_neutral"),
+                    hide("mother_pose_neutral"),
+                ]
+            },
+            // Shot 10 (SKIP)
+            // Shot 11 (SKIP)
+            // Shot 12 - CU changeling in front of mother looking at fire
+            // TODO: find shot positions
+            {
+                keys: [
+                    {
+                        actorID: "camera",
+                        loc: new vec(),
+                        rot: new rot()
+                    },
+                    {
+                        actorID: "mother_pose_kneel",
+                        loc: new vec(),
+                        rot: new rot()
+                    },
+                    {
+                        actorID: "changeling",
+                        loc: new vec(),
+                        rot: new rot()
+                    }
                 ]
             }
         ];
