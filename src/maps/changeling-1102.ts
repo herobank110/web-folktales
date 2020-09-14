@@ -1,4 +1,4 @@
-import { SoundMixer2D } from "../changeling-1102/audioPlayer.js";
+import { DialogueCue, SoundMixer2D } from "../changeling-1102/audioPlayer.js";
 import { ScreenCover } from "../changeling-1102/screenFade.js";
 import { TitleCard } from "../changeling-1102/titleCard.js";
 import { FolkWorldBase, makeTick } from "../core/world.js";
@@ -98,8 +98,6 @@ export class ChangelingWorld extends FolkWorldBase {
     private createShots() {
         // Add the camera made by the FolkWorldBase.
         this.timeline.actorMap.set("camera", this.camera);
-
-        // TODO: Add other dynamic meshes also.
 
         // Add shots.
         const vec = THREE.Vector3;
@@ -452,6 +450,25 @@ export class ChangelingWorld extends FolkWorldBase {
             };
         };
 
+        const onDynamicAudioLoaded = (objectID: string, clonesIDs: string[]) => {
+            return (audio: AudioBuffer, objectID_ = objectID, clonesID_ = clonesIDs) => {
+                this.timeline.audioCues.set(objectID_, audio);
+                clonesID_.forEach((cloneID) => {
+                    this.timeline.audioCues.set(cloneID, audio);
+                });
+            };
+        }
+
+        const onDynamicDialogueLoaded = (objectID: string, metadata: DialogueCue, ...clonesIDs: string[]) => {
+            return (audio: AudioBuffer, objectID_ = objectID, metadata_ = metadata, clonesID_ = clonesIDs) => {
+                metadata_.audioCue = audio;
+                this.timeline.dialogueCues.set(objectID_, metadata);
+                clonesID_.forEach((cloneID) => {
+                    this.timeline.dialogueCues.set(cloneID, metadata);
+                });
+            };
+        }
+
         // The static environment inside. It doesn't get animated at any
         // point and requires only one mesh. Consider using glTF for faster
         // loading.
@@ -479,11 +496,9 @@ export class ChangelingWorld extends FolkWorldBase {
             onDynamicModelLoaded("mother_pose_kneel"));
 
         // Load audio for later usage.
-        // const audioLoader = new THREE.AudioLoader();
-        // audioLoader.load("./content/s_coralie_clement_short.mp3", (buffer) => {
-        //     // Save a reference to the buffer when loaded.
-        //     this.testingAudioCue = buffer;
-        // });
+        const audioLoader = new THREE.AudioLoader();
+        audioLoader.load("./content/dialogue/s_changeling_narration_02.mp3",
+            onDynamicDialogueLoaded("shot_02", { speechContent: "Something...", audioCue: null }));
     }
 
     /**
