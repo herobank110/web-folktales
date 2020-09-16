@@ -13,7 +13,11 @@ export interface ActorKeyframe {
     readonly rot?: THREE.Euler;
     /** Whether the object should be visible. */
     readonly visible?: boolean;
+    /** Called when this keyframe is visited */
+    readonly onVisit?: () => void;
 }
+
+// AudioKeyframe and DialogueKeyframe are UNUSED!!!
 
 /** Modes of playing things. */
 export const enum PlayMode { Play = 0, Pause = 1, Stop = 2 }
@@ -86,6 +90,8 @@ export class Timeline {
                     if (keyframe.rot !== undefined) { actor.rotation.copy(keyframe.rot); }
                     if (keyframe.visible !== undefined) { actor.visible = keyframe.visible; }
                 }
+                // Call the visitor if available with the keyframe as THIS data.
+                if (keyframe.onVisit !== undefined) { keyframe.onVisit(); }
             });
         } else {
             // game over
