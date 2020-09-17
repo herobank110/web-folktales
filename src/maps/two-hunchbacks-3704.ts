@@ -446,7 +446,7 @@ export class TwoHunchbacksWorld extends FolkWorldBase {
             };
         };
 
-        const s = (objectID: string, clonesIDs: string[]) => {
+        const s = (objectID: string, ...clonesIDs: string[]) => {
             return (audio: AudioBuffer, objectID_ = objectID, clonesID_ = clonesIDs) => {
                 this.timeline.audioCues.set(objectID_, audio);
                 clonesID_.forEach((cloneID) => {
@@ -468,6 +468,7 @@ export class TwoHunchbacksWorld extends FolkWorldBase {
         fbxLoader.load("./content/sm_blockTree.fbx", sm("tree"));
         fbxLoader.load("./content/sm_elf_pose_neutral.fbx", sm("elf1_pose_neutral", "elf2_pose_neutral", "elf3_pose_neutral"));
         fbxLoader.load("./content/sm_hovel_interior_static.fbx", sm("hovel"));
+        fbxLoader.load("./content/sm_maleHunchback_pose_neutral.fbx", sm("hunchback1_pose_neutral", "hunchback2_pose_neutral"));
 
         // Load audio for later usage.
         // const audioLoader = new THREE.AudioLoader();
