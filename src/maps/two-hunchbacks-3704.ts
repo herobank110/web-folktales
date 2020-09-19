@@ -196,7 +196,7 @@ export class TwoHunchbacksWorld extends FolkWorldBase {
         }
 
         // Creates an image plane with a texture.
-        const t = (metadata: { w: number,h: number }, objectID: string, ...clonesIDs: string[]) => {
+        const t = (metadata: { w: number, h: number }, objectID: string, ...clonesIDs: string[]) => {
             return (texture: THREE.Texture, metadata_ = metadata, objectID_ = objectID, clonesIDs_ = clonesIDs) => {
                 // Create an image plane with the forest texture.
                 const geometry = new THREE.PlaneGeometry(metadata_.w, metadata_.h);
@@ -206,11 +206,24 @@ export class TwoHunchbacksWorld extends FolkWorldBase {
             }
         };
 
-        fbxLoader.load("./content/sm_blockTree.fbx", sm("tree"));
-        fbxLoader.load("./content/sm_elf_pose_neutral.fbx", sm("elf1_pose_neutral", "elf2_pose_neutral", "elf3_pose_neutral"));
-        fbxLoader.load("./content/sm_hovel_interior_static.fbx", sm("hovel"));
-        fbxLoader.load("./content/sm_maleHunchback_pose_neutral.fbx", sm("hunchback1_pose_neutral", "hunchback2_pose_neutral"));
-        textureLoader.load("./content/t_forestBlur.jpg", t({ w: 200, h: 300 }, "backdrop_forest"));
+        fbxLoader.load(
+            "./content/sm_blockTree.fbx",
+            sm("tree"));
+        fbxLoader.load(
+            "./content/sm_elf_pose_neutral.fbx",
+            sm("elf1_pose_neutral", "elf2_pose_neutral", "elf3_pose_neutral"));
+        fbxLoader.load(
+            "./content/sm_hovel_interior_static.fbx",
+            sm("hovel"));
+        fbxLoader.load(
+            "./content/sm_maleHunchback_pose_neutral.fbx",
+            sm("hunchback1_pose_neutral", "hunchback2_pose_neutral"));
+        textureLoader.load(
+            "./content/t_forestBlur.jpg",
+            t({ w: 200, h: 300 }, "backdrop_forest", "backdrop_forest2", "backdrop_forest3", "backdrop_forest4"));
+        textureLoader.load(
+            "./content/t_forestGround.jpg",
+            t({ w: 1000, h: 1000 }, "backdrop_ground"));
 
         // Load audio for later usage.
         // const audioLoader = new THREE.AudioLoader();
