@@ -25,6 +25,7 @@ export const getTimelineShots = (world: TwoHunchbacksWorld): TimelinePoint[] => 
             hide("backdrop_forest2"),
             hide("backdrop_forest3"),
             hide("backdrop_forest4"),
+            hide("backdrop_ground"),
             hide("elf1_pose_neutral"),
             hide("elf2_pose_neutral"),
             hide("elf3_pose_neutral"),
@@ -68,7 +69,8 @@ export const getTimelineShots = (world: TwoHunchbacksWorld): TimelinePoint[] => 
             },
             {
                 actorID: "tree",
-                loc: new loc(113, 0, -381),
+                loc: new loc(113, 0, -364),
+                visible: true
             },
             {
                 actorID: "backdrop_forest",
@@ -82,6 +84,45 @@ export const getTimelineShots = (world: TwoHunchbacksWorld): TimelinePoint[] => 
             {
                 actorID: "backdrop_forest3",
                 loc: new loc(244, 129, -400),
+                visible: true
+            },
+        ]
+    },
+    // Shot 3 - HA LS of the little old women in ring formation around tree
+    {
+        keys: [
+            {
+                actorID: "camera",
+                loc: new loc(54, 127, -336),
+                rot: new rot(-1)
+            },
+            {
+                actorID: "hunchback1_pose_neutral",
+                loc: new loc(82, 91, -358),
+                rot: new rot(0, 2)
+            },
+            {
+                actorID: "backdrop_ground",
+                loc: new loc(0, 0, 100),
+                rot: new rot(-Math.PI/2),
+                visible: true
+            },
+            {
+                actorID: "elf1_pose_neutral",
+                loc: new loc(54, 0, -379),
+                rot: new rot(0, -0.3),
+                visible: true
+            },
+            {
+                actorID: "elf2_pose_neutral",
+                loc: new loc(56, 0, -359),
+                rot: new rot(0, 0.5),
+                visible: true
+            },
+            {
+                actorID: "elf3_pose_neutral",
+                loc: new loc(67, 0, -343),
+                rot: new rot(0, 0.9),
                 visible: true
             },
         ]
