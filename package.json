@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "Web game for folktales",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "watch": "concurrently \"npx tsc -w\" \"http-server public -s\""
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/herobank110/web-folktales.git"
@@ -17,7 +19,11 @@
   "dependencies": {
     "@types/jquery": "2.0.34",
     "factorygame": "0.1.11",
-    "typescript": "3.8.3",
-    "three": "0.118.3"
+    "three": "0.118.3",
+    "typescript": "3.8.3"
+  },
+  "devDependencies": {
+    "concurrently": "^5.3.0",
+    "http-server": "^0.12.3"
   }
 }
