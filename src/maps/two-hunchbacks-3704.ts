@@ -196,10 +196,10 @@ export class TwoHunchbacksWorld extends FolkWorldBase {
         }
 
         // Creates an image plane with a texture.
-        const t = (objectID: string, ...clonesIDs: string[]) => {
-            return (texture: THREE.Texture, objectID_ = objectID, clonesIDs_ = clonesIDs) => {
+        const t = (metadata: { w: number,h: number }, objectID: string, ...clonesIDs: string[]) => {
+            return (texture: THREE.Texture, metadata_ = metadata, objectID_ = objectID, clonesIDs_ = clonesIDs) => {
                 // Create an image plane with the forest texture.
-                const geometry = new THREE.PlaneGeometry();
+                const geometry = new THREE.PlaneGeometry(metadata_.w, metadata_.h);
                 const material = new THREE.MeshPhongMaterial({ map: texture });
                 const plane = new THREE.Mesh(geometry, material);
                 sm(objectID_, ...clonesIDs_)(plane);
@@ -210,7 +210,7 @@ export class TwoHunchbacksWorld extends FolkWorldBase {
         fbxLoader.load("./content/sm_elf_pose_neutral.fbx", sm("elf1_pose_neutral", "elf2_pose_neutral", "elf3_pose_neutral"));
         fbxLoader.load("./content/sm_hovel_interior_static.fbx", sm("hovel"));
         fbxLoader.load("./content/sm_maleHunchback_pose_neutral.fbx", sm("hunchback1_pose_neutral", "hunchback2_pose_neutral"));
-        textureLoader.load("./content/t_forestBlur.jpg", t("backdrop_forest"));
+        textureLoader.load("./content/t_forestBlur.jpg", t({ w: 200, h: 300 }, "backdrop_forest"));
 
         // Load audio for later usage.
         // const audioLoader = new THREE.AudioLoader();
