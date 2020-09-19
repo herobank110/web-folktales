@@ -1,0 +1,11 @@
+{
+    "configurations": [
+        {
+            // compiles typescript in the background and hosts static site
+            "name": "Run npm watch",
+            "command": "npm run watch",
+            "request": "launch",
+            "type": "node-terminal"
+        },
+    ]
+}
