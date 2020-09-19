@@ -420,6 +420,7 @@ export class TwoHunchbacksWorld extends FolkWorldBase {
      */
     private downloadContent() {
         const fbxLoader = new FBXLoader();
+        const textureLoader = new THREE.TextureLoader();
 
         const sm = (objectID: string, ...cloneIDs: string[]) => {
             return (object: THREE.Object3D, objectID_ = objectID, cloneIds_ = cloneIDs) => {
@@ -465,10 +466,22 @@ export class TwoHunchbacksWorld extends FolkWorldBase {
             };
         }
 
+        // Creates an image plane with a texture.
+        const t = (objectID: string, ...clonesIDs: string[]) => {
+            return (texture: THREE.Texture, objectID_ = objectID, clonesIDs_ = clonesIDs) => {
+                // Create an image plane with the forest texture.
+                const geometry = new THREE.PlaneGeometry();
+                const material = new THREE.MeshPhongMaterial({ map: texture });
+                const plane = new THREE.Mesh(geometry, material);
+                sm(objectID_, ...clonesIDs_)(plane);
+            }
+        };
+
         fbxLoader.load("./content/sm_blockTree.fbx", sm("tree"));
         fbxLoader.load("./content/sm_elf_pose_neutral.fbx", sm("elf1_pose_neutral", "elf2_pose_neutral", "elf3_pose_neutral"));
         fbxLoader.load("./content/sm_hovel_interior_static.fbx", sm("hovel"));
         fbxLoader.load("./content/sm_maleHunchback_pose_neutral.fbx", sm("hunchback1_pose_neutral", "hunchback2_pose_neutral"));
+        textureLoader.load("./content/t_forestBlur.jpg", t("backdrop_forest"));
 
         // Load audio for later usage.
         // const audioLoader = new THREE.AudioLoader();

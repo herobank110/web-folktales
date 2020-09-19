@@ -1,12 +1,13 @@
 import { GameEngine, EKeys } from "/folktales/include/factorygame/factorygame.js";
 // import { FolkHubWorld } from "../maps/folkHubWorld.js";
 // Normally the game would start with the hub world but for now just use changeling.
-import { ChangelingWorld } from "../maps/changeling-1102.js";
+// import { ChangelingWorld } from "../maps/changeling-1102.js";
+import { TwoHunchbacksWorld } from "../maps/two-hunchbacks-3704.js";
 
 export class FolkEngine extends GameEngine {
     constructor() {
         super();
-        this._startingWorld = ChangelingWorld;
+        this._startingWorld = TwoHunchbacksWorld;
     }
 
     protected setupInputMappings() {
