@@ -127,4 +127,144 @@ export const getTimelineShots = (world: TwoHunchbacksWorld): TimelinePoint[] => 
             },
         ]
     },
+    // Shot 4 - HA closer LS as the women look up the tree
+    {
+        keys: [
+            {
+                actorID: "camera",
+                loc: new loc(59, 83, -326),
+                rot: new rot(-0.9)
+            },
+            // TODO Add look up poses for old women
+        ]
+    },
+    // Shot 5 - MS of him scared, tree branches behind
+    {
+        keys: [
+            {
+                actorID: "camera",
+                loc: new loc(88, 183, -290),
+                rot: new rot()
+            },
+            {
+                // TODO Replace with tree hug pose
+                actorID: "hunchback1_pose_neutral",
+                loc: new loc(67, 59, -335),
+                rot: new rot(-0.2, 2)
+            },
+        ]
+    },
+    // Shot 6 - LS of him sat on rock with little old women standing on shoulders and rock, sawing
+    {
+        keys: [
+            {
+                actorID: "camera",
+                loc: new loc(-61, 55, -254),
+                rot: new rot(0, -0.3)
+            },
+            {
+                actorID: "hunchback1_pose_neutral",
+                loc: new loc(-136, -18, -398),
+                rot: new rot(1.2, 0.2, 1)
+            },
+            {
+                actorID: "elf1_pose_neutral",
+                loc: new loc(-33, 21, -347),
+                rot: new rot(0.3, -0.3)
+            },
+            {
+                actorID: "elf2_pose_neutral",
+                loc: new loc(-26, 29, -320),
+                rot: new rot(0, 3)
+            },
+            {
+                actorID: "elf3_pose_neutral",
+                loc: new loc(0, 0, -331),
+                rot: new rot(0, 5)
+            },
+        ]
+    },
+    // Shot 7 - reverse #1 LS of returned brother energetic stretch in front of doorway, other brother sat at table
+    {
+        keys: [
+            {
+                actorID: "camera",
+                loc: new loc(98, 140, 50),
+                rot: new rot(0, 1.2)
+            },
+            {
+                actorID: "hunchback1_pose_neutral",
+                loc: new loc(42, 0, -26),
+                rot: new rot(0, -1)
+            },
+            {
+                actorID: "hunchback2_pose_neutral",
+                loc: new loc(-25, 0, 12),
+                rot: new rot(0, 1.2)
+            },
+        ]
+    },
+    // Shot 8 - LS man atop tree, pleased, shouting
+    {
+        keys: [
+            {
+                actorID: "camera",
+                loc: new loc(88, 204, -290),
+                rot: new rot(-0.2)
+            },
+            {
+                // TODO Replace with wave down
+                actorID: "hunchback2_pose_neutral",
+                loc: new loc(92, 54, -384),
+                rot: new rot(-0.3, 0.9, 0.4)
+            },
+        ]
+    },
+    // Shot 9 - MS LA of little old woman on the ground looking up tree at man holding tree
+    {
+        keys: [
+            {
+                actorID: "camera",
+                loc: new loc(24, 15, -290),
+                rot: new rot(0.7)
+            },
+            {
+                // TODO: Replace with tree hug pose
+                actorID: "hunchback2_pose_neutral",
+                loc: new loc(92, 155, -384),
+                rot: new rot(-0.3, 0.9, 0.4)
+            },
+            {
+                actorID: "elf1_pose_neutral",
+                loc: new loc(23, 0, -347),
+                rot: new rot(0, 1)
+            },
+            {
+                actorID: "elf2_pose_neutral",
+                loc: new loc(30, 0, -320),
+                rot: new rot(0, 2.2)
+            },
+            {
+                actorID: "elf3_pose_neutral",
+                loc: new loc(12, 0, -333),
+                rot: new rot(0, 2)
+            },
+        ]
+    },
+    // Shot 10 - MS profile hunchback with back and chest humps, walking home
+    {
+        keys: [
+            {
+                actorID: "camera",
+                loc: new loc(62, 128, -245),
+                rot: new rot(0, 0.2)
+            },
+            {
+                // TODO Replace with 2 humps pose
+                actorID: "hunchback2_pose_neutral",
+                loc: new loc(57, 0, -328),
+                rot: new rot(0, -1.5)
+            },
+        ]
+    },
 ];
