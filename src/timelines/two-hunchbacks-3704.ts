@@ -49,7 +49,7 @@ export const getTimelineShots = (world: TwoHunchbacksWorld): TimelinePoint[] => 
             },
             {
                 actorID: "hunchback2_pose_neutral",
-                loc: new loc(-25, 0, 12),
+                loc: new loc(-30, 0, 12),
                 rot: new rot(0, 1.2),
                 visible: true
             },
@@ -163,9 +163,10 @@ export const getTimelineShots = (world: TwoHunchbacksWorld): TimelinePoint[] => 
                 rot: new rot(0, -0.3)
             },
             {
+                // TODO Replace with sat at rock pose (or sat on ground)
                 actorID: "hunchback1_pose_neutral",
                 loc: new loc(-136, -18, -398),
-                rot: new rot(1.2, 0.2, 1)
+                rot: new rot(1.2, 0.2, -1)
             },
             {
                 actorID: "elf1_pose_neutral",
