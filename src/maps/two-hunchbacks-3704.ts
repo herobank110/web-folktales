@@ -218,6 +218,9 @@ export class TwoHunchbacksWorld extends FolkWorldBase {
         fbxLoader.load(
             "./content/sm_maleHunchback_pose_neutral.fbx",
             sm("hunchback1_pose_neutral", "hunchback2_pose_neutral"));
+        fbxLoader.load(
+            "./content/sm_maleTwoHumps_pose_walk.fbx",
+            sm("maleTwoHumps_pose_walk"));
         textureLoader.load(
             "./content/t_forestBlur.jpg",
             t({ w: 200, h: 300 }, "backdrop_forest", "backdrop_forest2", "backdrop_forest3", "backdrop_forest4"));

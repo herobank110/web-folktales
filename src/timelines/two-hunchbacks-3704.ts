@@ -31,6 +31,7 @@ export const getTimelineShots = (world: TwoHunchbacksWorld): TimelinePoint[] => 
             hide("elf3_pose_neutral"),
             hide("hunchback1_pose_neutral"),
             hide("hunchback2_pose_neutral"),
+            hide("maleTwoHumps_pose_walk"),
             hide("tree"),
         ]
     },
@@ -203,6 +204,9 @@ export const getTimelineShots = (world: TwoHunchbacksWorld): TimelinePoint[] => 
                 loc: new loc(-25, 0, 12),
                 rot: new rot(0, 1.2)
             },
+            hide("elf1_pose_neutral"),
+            hide("elf2_pose_neutral"),
+            hide("elf3_pose_neutral"),
         ]
     },
     // Shot 8 - LS man atop tree, pleased, shouting
@@ -238,17 +242,20 @@ export const getTimelineShots = (world: TwoHunchbacksWorld): TimelinePoint[] => 
             {
                 actorID: "elf1_pose_neutral",
                 loc: new loc(23, 0, -347),
-                rot: new rot(0, 1)
+                rot: new rot(0, 1),
+                visible: true
             },
             {
                 actorID: "elf2_pose_neutral",
                 loc: new loc(30, 0, -320),
-                rot: new rot(0, 2.2)
+                rot: new rot(0, 2.2),
+                visible: true
             },
             {
                 actorID: "elf3_pose_neutral",
                 loc: new loc(12, 0, -333),
-                rot: new rot(0, 2)
+                rot: new rot(0, 2),
+                visible: true
             },
         ]
     },
@@ -262,10 +269,12 @@ export const getTimelineShots = (world: TwoHunchbacksWorld): TimelinePoint[] => 
             },
             {
                 // TODO Replace with 2 humps pose
-                actorID: "hunchback2_pose_neutral",
+                actorID: "maleTwoHumps_pose_walk",
                 loc: new loc(57, 0, -328),
-                rot: new rot(0, -1.5)
+                rot: new rot(0, -1.5),
+                visible: true
             },
+            hide("hunchback2_pose_neutral")
         ]
     },
 ];
