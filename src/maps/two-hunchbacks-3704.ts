@@ -19,7 +19,7 @@ export class TwoHunchbacksWorld extends FolkWorldBase {
     fadeUpDuration: number = 2;
 
     /** Whether to prevent the title card and splash screen. */
-    readonly noLogo: boolean = true;
+    readonly noLogo: boolean = false;
 
     /** Timeline for shots in the world. */
     private timeline: Timeline;
@@ -53,7 +53,7 @@ export class TwoHunchbacksWorld extends FolkWorldBase {
 
             // Test the title card system. (after the fade in)
             setTimeout(() => {
-                const titleCard = new TitleCard("./content/t_changeling1102_titleCard.png");
+                const titleCard = new TitleCard("./content/t_twoHunchbacks3704_titleCard.png");
                 titleCard.animate();
             }, this.fadeUpDuration * 1000 + 2000);
         }
