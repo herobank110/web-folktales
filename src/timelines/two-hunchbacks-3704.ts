@@ -15,7 +15,11 @@ export const getTimelineShots = (world: TwoHunchbacksWorld): TimelinePoint[] => 
             {
                 actorID: "camera",
                 loc: new loc(0, 100, 200),
-                onVisit: () => { console.log("the first shot has begun!") }
+                onVisit: () => { 
+                    // This must be reached by user interaction to play.
+                    const cue = world.getTimeline().dialogueCues.get("info_headphones");
+                    world.audioMixer.playDialogue(cue);
+                 }
             },
             {
                 actorID: "backdrop_forest",

@@ -148,9 +148,6 @@ export class TwoHunchbacksWorld extends FolkWorldBase {
      * TODO: Add progress bar when each thing is loaded.
      */
     private downloadContent() {
-        const fbxLoader = new FBXLoader();
-        const textureLoader = new THREE.TextureLoader();
-
         const sm = (objectID: string, ...cloneIDs: string[]) => {
             return (object: THREE.Object3D, objectID_ = objectID, cloneIds_ = cloneIDs) => {
                 // Add to the dynamic actors list.
@@ -183,7 +180,7 @@ export class TwoHunchbacksWorld extends FolkWorldBase {
                     this.timeline.audioCues.set(cloneID, audio);
                 });
             };
-        }
+        };
 
         const d = (metadata: DialogueCue, objectID: string, ...clonesIDs: string[]) => {
             return (audio: AudioBuffer, objectID_ = objectID, metadata_ = metadata, clonesID_ = clonesIDs) => {
@@ -193,7 +190,7 @@ export class TwoHunchbacksWorld extends FolkWorldBase {
                     this.timeline.dialogueCues.set(cloneID, metadata);
                 });
             };
-        }
+        };
 
         // Creates an image plane with a texture.
         const t = (metadata: { w: number, h: number }, objectID: string, ...clonesIDs: string[]) => {
@@ -206,6 +203,14 @@ export class TwoHunchbacksWorld extends FolkWorldBase {
             }
         };
 
+        const fbxLoader = new FBXLoader();
+        const textureLoader = new THREE.TextureLoader();
+        const audioLoader = new THREE.AudioLoader();
+
+        audioLoader.load(
+            "./content/s_info_headphones.mp3",
+            d({ speechContent: "Headphones for best experience", audioCue: null },
+                "info_headphones"));
         fbxLoader.load(
             "./content/sm_blockTree.fbx",
             sm("tree"));
@@ -238,4 +243,6 @@ export class TwoHunchbacksWorld extends FolkWorldBase {
     public onTimelineFinished() {
         throw new Error("timeline finished not implemented")
     }
+
+    public getTimeline() { return this.timeline; }
 }
