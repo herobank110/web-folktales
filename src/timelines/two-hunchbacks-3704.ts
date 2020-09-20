@@ -268,7 +268,6 @@ export const getTimelineShots = (world: TwoHunchbacksWorld): TimelinePoint[] => 
                 rot: new rot(0, 0.2)
             },
             {
-                // TODO Replace with 2 humps pose
                 actorID: "maleTwoHumps_pose_walk",
                 loc: new loc(57, 0, -328),
                 rot: new rot(0, -1.5),
