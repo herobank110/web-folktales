@@ -29,7 +29,7 @@ export class TwoHunchbacksWorld extends FolkWorldBase {
     private screenCover: ScreenCover;
 
     private loadedAssetCount: number = 0;
-    private readonly totalAssetCount: number = 11;
+    private readonly totalAssetCount: number = 12;
 
     public beginPlay() {
         super.beginPlay();
@@ -197,12 +197,15 @@ export class TwoHunchbacksWorld extends FolkWorldBase {
         const audioLoader = new THREE.AudioLoader();
 
         audioLoader.load(
+            "./content/s_accordion_andrew_huang.mp3",
+            s("bgm_primary"));
+        audioLoader.load(
+            "./content/s_ambient_forest.mp3",
+            s("ambient_forest"));
+        audioLoader.load(
             "./content/s_info_headphones.mp3",
             d({ speechContent: "Headphones for best experience", audioCue: null },
                 "info_headphones"));
-        audioLoader.load(
-            "./content/s_accordion_andrew_huang.mp3",
-            s("bgm_primary"));
         fbxLoader.load(
             "./content/sm_blockTree.fbx",
             sm("tree"));

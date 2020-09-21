@@ -20,6 +20,10 @@ export const getTimelineShots = (world: TwoHunchbacksWorld): TimelinePoint[] => 
                     // This must be reached by user interaction to play.
                     const cue = world.getTimeline().dialogueCues.get("info_headphones");
                     world.audioMixer.playDialogue(cue);
+
+                    const cue2 = world.getTimeline().audioCues.get("ambient_forest");
+                    const player = world.audioMixer.playAudio(cue2, 5.5);
+                    player.setLoop(true);
                 }
             },
             {
