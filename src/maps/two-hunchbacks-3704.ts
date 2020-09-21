@@ -178,7 +178,7 @@ export class TwoHunchbacksWorld extends FolkWorldBase {
                 };
                 this.timeline.dialogueCues.set(objectID_, cueData);
                 clonesID_.forEach((cloneID) => {
-                    this.timeline.dialogueCues.set(cloneID, metadata);
+                    this.timeline.dialogueCues.set(cloneID, cueData);
                 });
             };
         };
