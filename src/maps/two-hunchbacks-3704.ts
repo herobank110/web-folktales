@@ -29,7 +29,7 @@ export class TwoHunchbacksWorld extends FolkWorldBase {
     private screenCover: ScreenCover;
 
     private loadedAssetCount: number = 0;
-    private readonly totalAssetCount: number = 15;
+    private readonly totalAssetCount: number = 24;
 
     public beginPlay() {
         super.beginPlay();
