@@ -45,6 +45,11 @@ export const getTimelineShots = (world: TwoHunchbacksWorld): TimelinePoint[] => 
             {
                 actorID: "camera",
                 loc: new loc(34, 123, 166),
+                onVisit: () => {
+                    const cue = world.getTimeline().audioCues.get("bgm_primary");
+                    const player = world.audioMixer.playAudio(cue, 0.2);
+                    player.setLoop(true);
+                }
             },
             {
                 actorID: "hunchback1_pose_neutral",

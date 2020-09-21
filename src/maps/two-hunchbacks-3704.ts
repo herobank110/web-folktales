@@ -41,9 +41,9 @@ export class TwoHunchbacksWorld extends FolkWorldBase {
         const envLight = new THREE.AmbientLight(0xcccccc);
         this.scene.add(envLight);
 
+        // Create the screen cover and make it black initially.
+        this.screenCover = this.spawnActor(ScreenCover, [0, 0]);
         if (!this.noLogo) {
-            // Create the screen cover and make it black initially.
-            this.screenCover = this.spawnActor(ScreenCover, [0, 0]);
             // Start the fade up after a second of black.
             this.screenCover.setColor("#000000");
             this.screenCover.setOpacity(1);
@@ -69,13 +69,14 @@ export class TwoHunchbacksWorld extends FolkWorldBase {
         // Bind clicks to maneuver the timeline.
         let isFirstClick = true;
         const onNextShot = () => {
-            this.timeline.nextPoint();
-            if (isFirstClick) {
+            if (isFirstClick && !this.noLogo) {
                 // Perform dip to white on first click.
                 isFirstClick = false;
-                if (!this.noLogo) {
-                    this.screenCover.dipToWhite(1000);
-                }
+                // Dip to white time in seconds!
+                this.screenCover.dipToWhite(1);
+                setTimeout(() => this.timeline.nextPoint(), 500);
+            } else {
+                this.timeline.nextPoint();
             }
         };
         GameplayStatics.gameEngine.inputMappings.bindAction(
@@ -211,6 +212,9 @@ export class TwoHunchbacksWorld extends FolkWorldBase {
             "./content/s_info_headphones.mp3",
             d({ speechContent: "Headphones for best experience", audioCue: null },
                 "info_headphones"));
+        audioLoader.load(
+            "./content/s_accordion_andrew_huang.mp3",
+            s("bgm_primary"));
         fbxLoader.load(
             "./content/sm_blockTree.fbx",
             sm("tree"));
@@ -232,9 +236,6 @@ export class TwoHunchbacksWorld extends FolkWorldBase {
         textureLoader.load(
             "./content/t_forestGround.jpg",
             t({ w: 1000, h: 1000 }, "backdrop_ground"));
-
-        // Load audio for later usage.
-        // const audioLoader = new THREE.AudioLoader();
     }
 
     /**
