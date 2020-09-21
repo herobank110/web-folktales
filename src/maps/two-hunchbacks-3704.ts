@@ -6,6 +6,7 @@ import { FBXLoader } from "/folktales/include/three/examples/jsm/loaders/FBXLoad
 import { Timeline } from "../changeling-1102/timeline.js";
 import { GameplayStatics, EInputEvent } from "/folktales/include/factorygame/factorygame.js";
 import { getTimelineShots } from "../timelines/two-hunchbacks-3704.js";
+import { visitFunctionBody } from "typescript";
 var THREE = window["THREE"];
 
 /**
@@ -61,9 +62,7 @@ export class TwoHunchbacksWorld extends FolkWorldBase {
             if (isFirstClick && !this.noLogo) {
                 // Perform dip to white on first click.
                 isFirstClick = false;
-                // Dip to white time in seconds!
-                this.screenCover.dipToWhite(1);
-                setTimeout(() => this.timeline.nextPoint(), 500);
+                this.beginGameForReal();
             } else {
                 this.timeline.nextPoint();
             }
@@ -229,6 +228,10 @@ export class TwoHunchbacksWorld extends FolkWorldBase {
 
     private beginGameForReal() {
         if (!this.noLogo) {
+            // Get rid of the loading screen.
+            $("#loading").slideUp(500)
+            setTimeout(() => $("#loading").remove(), 490);
+
             // Start the fade up after a second of black.
             this.screenCover.setColor("#000000");
             this.screenCover.setOpacity(1);
@@ -244,20 +247,27 @@ export class TwoHunchbacksWorld extends FolkWorldBase {
         }
 
         // Go to the initial position.
-        setTimeout(() => { this.timeline.nextPoint(); }, 500);
+        this.timeline.nextPoint();
     }
 
     private onAnyAssetLoaded() {
         this.loadedAssetCount++;
         console.log(`loaded ${this.loadedAssetCount} assets`);
-        
+
         if (this.loadedAssetCount >= this.totalAssetCount) {
+            
             // Hide the loading screen when fully loaded.
-            // TODO: add button on loading screen to trigger slideUp and
-            // user action for audio too.
-            $("#loading").slideUp(500);
-            setTimeout(() => { $("#loading").remove(); }, 490);
-            this.beginGameForReal();
+            function isTouchEnabled() {
+                return ('ontouchstart' in window) ||
+                    (navigator.maxTouchPoints > 0) ||
+                    (navigator.msMaxTouchPoints > 0);
+            }
+
+            $("#start-game").find(".device-play-verb").text(
+                isTouchEnabled() ? "Tap" : "Click"
+            );
+            $("#loading-progress").fadeOut(500);
+            setTimeout(() => $("#start-game").fadeIn(), 500);
         }
     }
 
