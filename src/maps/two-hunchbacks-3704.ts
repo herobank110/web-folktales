@@ -169,11 +169,14 @@ export class TwoHunchbacksWorld extends FolkWorldBase {
             };
         };
 
-        const d = (metadata: DialogueCue, objectID: string, ...clonesIDs: string[]) => {
+        const d = (metadata: { speechContent: string }, objectID: string, ...clonesIDs: string[]) => {
             return (audio: AudioBuffer, objectID_ = objectID, metadata_ = metadata, clonesID_ = clonesIDs) => {
                 this.onAnyAssetLoaded();
-                metadata_.audioCue = audio;
-                this.timeline.dialogueCues.set(objectID_, metadata);
+                const cueData: DialogueCue = {
+                    audioCue: audio,
+                    speechContent: metadata_.speechContent
+                };
+                this.timeline.dialogueCues.set(objectID_, cueData);
                 clonesID_.forEach((cloneID) => {
                     this.timeline.dialogueCues.set(cloneID, metadata);
                 });
@@ -208,7 +211,7 @@ export class TwoHunchbacksWorld extends FolkWorldBase {
             s("ambient_forest"));
         audioLoader.load(
             "./content/s_info_headphones.mp3",
-            d({ speechContent: "There were two hunchbacks who were brothers. The younger hunchback said, “I’m going out and make a fortune.”", audioCue: null },
+            d({ speechContent: "Headphones for best experience" },
                 "info_headphones"));
         fbxLoader.load(
             "./content/sm_blockTree.fbx",

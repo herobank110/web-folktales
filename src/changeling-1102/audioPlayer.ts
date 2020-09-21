@@ -30,7 +30,7 @@ class DialoguePlayer {
         this.subtitleManager = subtitleManager;
     }
 
-    public play(cue: DialogueCue) {
+    public play(cue: DialogueCue, autoHide: boolean = true) {
         // Play the audio in the active Audio object.
         this.audio.setBuffer(cue.audioCue);
         this.audio.setLoop(false);
@@ -44,7 +44,9 @@ class DialoguePlayer {
         // It will actually just empty the box rather than hide it.
         // Time must be converted to milliseconds, plus a half second delay.
         let delay = cue.audioCue.duration * 1000 + 500;
-        setTimeout(() => { this.subtitleManager.setText(""); }, delay);
+        if (autoHide) {
+            setTimeout(() => { this.subtitleManager.setText(""); }, delay);
+        }
     }
 }
 
@@ -105,8 +107,8 @@ export class SoundMixer2D extends Actor {
      * @return The playing audio clip. It is the same object for all
      * invocations.
      */
-    public playDialogue(cue: DialogueCue): THREE.Audio {
-        this.dialoguePlayer.play(cue);
+    public playDialogue(cue: DialogueCue, autoHide: boolean = true): THREE.Audio {
+        this.dialoguePlayer.play(cue, autoHide);
         // Not sure why this is returned, but sure!
         return this.dialoguePlayer.audio;
     }
