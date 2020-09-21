@@ -192,6 +192,10 @@ export class TwoHunchbacksWorld extends FolkWorldBase {
             }
         };
 
+        const cacheOnly = (loaded: any) => {
+            this.onAnyAssetLoaded();
+        }
+
         const fbxLoader = new FBXLoader();
         const textureLoader = new THREE.TextureLoader();
         const audioLoader = new THREE.AudioLoader();
@@ -204,7 +208,7 @@ export class TwoHunchbacksWorld extends FolkWorldBase {
             s("ambient_forest"));
         audioLoader.load(
             "./content/s_info_headphones.mp3",
-            d({ speechContent: "Headphones for best experience", audioCue: null },
+            d({ speechContent: "There were two hunchbacks who were brothers. The younger hunchback said, “I’m going out and make a fortune.”", audioCue: null },
                 "info_headphones"));
         fbxLoader.load(
             "./content/sm_blockTree.fbx",
@@ -222,7 +226,8 @@ export class TwoHunchbacksWorld extends FolkWorldBase {
             "./content/sm_maleTwoHumps_pose_walk.fbx",
             sm("maleTwoHumps_pose_walk"));
         textureLoader.load(
-            "./content/t_3704_credits.png");
+            "./content/t_3704_credits.png",
+            cacheOnly);
         textureLoader.load(
             "./content/t_forestBlur.jpg",
             t({ w: 200, h: 300 }, "backdrop_forest", "backdrop_forest2", "backdrop_forest3", "backdrop_forest4"));
@@ -230,7 +235,9 @@ export class TwoHunchbacksWorld extends FolkWorldBase {
             "./content/t_forestGround.jpg",
             t({ w: 1000, h: 1000 }, "backdrop_ground"));
         textureLoader.load(
-            "./content/t_twoHunchbacks3704_titleCard.png");
+            "./content/t_twoHunchbacks3704_titleCard.png",
+            cacheOnly);
+
     }
 
     private beginGameForReal() {
@@ -262,7 +269,7 @@ export class TwoHunchbacksWorld extends FolkWorldBase {
         console.log(`loaded ${this.loadedAssetCount} assets`);
 
         if (this.loadedAssetCount >= this.totalAssetCount) {
-            
+
             // Hide the loading screen when fully loaded.
             function isTouchEnabled() {
                 return ('ontouchstart' in window) ||
