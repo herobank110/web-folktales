@@ -77,6 +77,7 @@ export const getTimelineShots = (world: TwoHunchbacksWorld): TimelinePoint[] => 
     // Shot 2 - WA establishing shot of him walking in woods center frame, near a tall tree right frame
     {
         keys: [
+            dialogue(world, "dlg_shot2", false),
             {
                 actorID: "camera",
                 loc: new loc(34, 127, -239),
@@ -110,6 +111,7 @@ export const getTimelineShots = (world: TwoHunchbacksWorld): TimelinePoint[] => 
     // Shot 3 - HA LS of the little old women in ring formation around tree
     {
         keys: [
+            dialogue(world, "dlg_shot3", false),
             {
                 actorID: "camera",
                 loc: new loc(54, 127, -336),
@@ -149,6 +151,7 @@ export const getTimelineShots = (world: TwoHunchbacksWorld): TimelinePoint[] => 
     // Shot 4 - HA closer LS as the women look up the tree
     {
         keys: [
+            dialogue(world, "dlg_shot4", false),
             {
                 actorID: "camera",
                 loc: new loc(59, 83, -326),
@@ -160,6 +163,7 @@ export const getTimelineShots = (world: TwoHunchbacksWorld): TimelinePoint[] => 
     // Shot 5 - MS of him scared, tree branches behind
     {
         keys: [
+            dialogue(world, "dlg_shot5", false),
             {
                 actorID: "camera",
                 loc: new loc(88, 183, -290),
@@ -176,6 +180,7 @@ export const getTimelineShots = (world: TwoHunchbacksWorld): TimelinePoint[] => 
     // Shot 6 - LS of him sat on rock with little old women standing on shoulders and rock, sawing
     {
         keys: [
+            dialogue(world, "dlg_shot6", false),
             {
                 actorID: "camera",
                 loc: new loc(-61, 55, -254),
@@ -207,6 +212,7 @@ export const getTimelineShots = (world: TwoHunchbacksWorld): TimelinePoint[] => 
     // Shot 7 - reverse #1 LS of returned brother energetic stretch in front of doorway, other brother sat at table
     {
         keys: [
+            dialogue(world, "dlg_shot7", false),
             {
                 actorID: "camera",
                 loc: new loc(98, 140, 50),
@@ -230,6 +236,7 @@ export const getTimelineShots = (world: TwoHunchbacksWorld): TimelinePoint[] => 
     // Shot 8 - LS man atop tree, pleased, shouting
     {
         keys: [
+            dialogue(world, "dlg_shot8", false),
             {
                 actorID: "camera",
                 loc: new loc(88, 204, -290),
@@ -246,6 +253,7 @@ export const getTimelineShots = (world: TwoHunchbacksWorld): TimelinePoint[] => 
     // Shot 9 - MS LA of little old woman on the ground looking up tree at man holding tree
     {
         keys: [
+            dialogue(world, "dlg_shot9", false),
             {
                 actorID: "camera",
                 loc: new loc(24, 15, -290),
@@ -280,6 +288,7 @@ export const getTimelineShots = (world: TwoHunchbacksWorld): TimelinePoint[] => 
     // Shot 10 - MS profile hunchback with back and chest humps, walking home
     {
         keys: [
+            dialogue(world, "dlg_shot10", false),
             {
                 actorID: "camera",
                 loc: new loc(62, 128, -245),
