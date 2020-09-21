@@ -1,5 +1,6 @@
-import { TwoHunchbacksWorld } from "../maps/two-hunchbacks-3704";
-import { TimelinePoint } from "../changeling-1102/timeline";
+import { TwoHunchbacksWorld } from "../maps/two-hunchbacks-3704.js";
+import { TimelinePoint } from "../changeling-1102/timeline.js";
+import { TitleCard } from "../changeling-1102/titleCard.js";
 var THREE = window["THREE"];
 
 // Helpers
@@ -15,11 +16,11 @@ export const getTimelineShots = (world: TwoHunchbacksWorld): TimelinePoint[] => 
             {
                 actorID: "camera",
                 loc: new loc(0, 100, 200),
-                onVisit: () => { 
+                onVisit: () => {
                     // This must be reached by user interaction to play.
                     const cue = world.getTimeline().dialogueCues.get("info_headphones");
                     world.audioMixer.playDialogue(cue);
-                 }
+                }
             },
             {
                 actorID: "backdrop_forest",
@@ -114,7 +115,7 @@ export const getTimelineShots = (world: TwoHunchbacksWorld): TimelinePoint[] => 
             {
                 actorID: "backdrop_ground",
                 loc: new loc(0, 0, 100),
-                rot: new rot(-Math.PI/2),
+                rot: new rot(-Math.PI / 2),
                 visible: true
             },
             {
@@ -274,7 +275,13 @@ export const getTimelineShots = (world: TwoHunchbacksWorld): TimelinePoint[] => 
             {
                 actorID: "camera",
                 loc: new loc(62, 128, -245),
-                rot: new rot(0, 0.2)
+                rot: new rot(0, 0.2),
+                onVisit: () => {
+                    setTimeout(() => {
+                        const credits = new TitleCard("./content/t_3704_credits.png");
+                        credits.animate();
+                    }, 3000);
+                }
             },
             {
                 actorID: "maleTwoHumps_pose_walk",
