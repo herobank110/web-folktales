@@ -9,18 +9,21 @@ const rot = THREE.Euler;
 const hide = (actorID: string) => ({ actorID, visible: false });
 const show = (actorID: string) => ({ actorID, visible: true });
 
+const dialogue = (world: TwoHunchbacksWorld, dID: string, autoHide: boolean = true) => ({
+    onVisit: (w_ = world, d_ = dID, a_ = autoHide) => 
+        w_.audioMixer.playDialogue(w_.getTimeline().dialogueCues.get(d_), a_)
+});
+
 export const getTimelineShots = (world: TwoHunchbacksWorld): TimelinePoint[] => [
     // initial position: shots A and B
     {
         keys: [
+            dialogue(world, "info_headphones", true),
             {
                 actorID: "camera",
                 loc: new loc(0, 100, 200),
                 onVisit: () => {
                     // This must be reached by user interaction to play.
-                    const cue = world.getTimeline().dialogueCues.get("info_headphones");
-                    world.audioMixer.playDialogue(cue, true);
-
                     const cue2 = world.getTimeline().audioCues.get("ambient_forest");
                     const player = world.audioMixer.playAudio(cue2, 5.5);
                     player.setLoop(true);
@@ -47,12 +50,13 @@ export const getTimelineShots = (world: TwoHunchbacksWorld): TimelinePoint[] => 
     // Shot 1 - LS of 2 brothers sat inside eating
     {
         keys: [
+            dialogue(world, "dlg_shot1", false),
             {
                 actorID: "camera",
                 loc: new loc(34, 123, 166),
                 onVisit: () => {
-                    const cue = world.getTimeline().audioCues.get("bgm_primary");
-                    const player = world.audioMixer.playAudio(cue, 0.2);
+                    const cue2 = world.getTimeline().audioCues.get("bgm_primary");
+                    const player = world.audioMixer.playAudio(cue2, 0.2);
                     player.setLoop(true);
                 }
             },

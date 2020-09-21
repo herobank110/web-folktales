@@ -29,7 +29,7 @@ export class TwoHunchbacksWorld extends FolkWorldBase {
     private screenCover: ScreenCover;
 
     private loadedAssetCount: number = 0;
-    private readonly totalAssetCount: number = 14;
+    private readonly totalAssetCount: number = 15;
 
     public beginPlay() {
         super.beginPlay();
@@ -213,6 +213,10 @@ export class TwoHunchbacksWorld extends FolkWorldBase {
             "./content/s_info_headphones.mp3",
             d({ speechContent: "Headphones for best experience" },
                 "info_headphones"));
+        audioLoader.load(
+            "./content/s_silence.mp3",
+            d({ speechContent: "There were two hunchbacks who were brothers. The younger hunchback said, “I’m going out and make a fortune.”" },
+                "dlg_shot1"));
         fbxLoader.load(
             "./content/sm_blockTree.fbx",
             sm("tree"));
