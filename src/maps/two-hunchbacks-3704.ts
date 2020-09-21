@@ -27,6 +27,9 @@ export class TwoHunchbacksWorld extends FolkWorldBase {
     /** Cover for the screen fades and dips. */
     private screenCover: ScreenCover;
 
+    private loadedAssetCount: number = 0;
+    private readonly totalAssetCount: number = 11;
+
     public beginPlay() {
         super.beginPlay();
 
@@ -43,20 +46,6 @@ export class TwoHunchbacksWorld extends FolkWorldBase {
 
         // Create the screen cover and make it black initially.
         this.screenCover = this.spawnActor(ScreenCover, [0, 0]);
-        if (!this.noLogo) {
-            // Start the fade up after a second of black.
-            this.screenCover.setColor("#000000");
-            this.screenCover.setOpacity(1);
-            setTimeout(() => {
-                this.screenCover.startAccumulatedFade("#000000", 1.0, "#000000", 0.0, this.fadeUpDuration);
-            }, 1000);
-
-            // Test the title card system. (after the fade in)
-            setTimeout(() => {
-                const titleCard = new TitleCard("./content/t_twoHunchbacks3704_titleCard.png");
-                titleCard.animate();
-            }, this.fadeUpDuration * 1000 + 2000);
-        }
 
         // Create the audio mixer in the world (2D non-spatial audio only.)
         this.audioMixer = this.spawnActor(SoundMixer2D, [0, 0]);
@@ -86,10 +75,6 @@ export class TwoHunchbacksWorld extends FolkWorldBase {
 
         // Also add touch support.
         document.body.addEventListener("touchend", () => { onNextShot(); });
-
-        // Go to the initial position.
-        // TODO: make this a start button
-        setTimeout(() => { this.timeline.nextPoint(); }, 500);
     }
 
     /**
@@ -151,6 +136,7 @@ export class TwoHunchbacksWorld extends FolkWorldBase {
     private downloadContent() {
         const sm = (objectID: string, ...cloneIDs: string[]) => {
             return (object: THREE.Object3D, objectID_ = objectID, cloneIds_ = cloneIDs) => {
+                this.onAnyAssetLoaded();
                 // Add to the dynamic actors list.
                 if (this.timeline === undefined) {
                     throw new Error("timeline not defined before loading objects");
@@ -176,6 +162,7 @@ export class TwoHunchbacksWorld extends FolkWorldBase {
 
         const s = (objectID: string, ...clonesIDs: string[]) => {
             return (audio: AudioBuffer, objectID_ = objectID, clonesID_ = clonesIDs) => {
+                this.onAnyAssetLoaded();
                 this.timeline.audioCues.set(objectID_, audio);
                 clonesID_.forEach((cloneID) => {
                     this.timeline.audioCues.set(cloneID, audio);
@@ -185,6 +172,7 @@ export class TwoHunchbacksWorld extends FolkWorldBase {
 
         const d = (metadata: DialogueCue, objectID: string, ...clonesIDs: string[]) => {
             return (audio: AudioBuffer, objectID_ = objectID, metadata_ = metadata, clonesID_ = clonesIDs) => {
+                this.onAnyAssetLoaded();
                 metadata_.audioCue = audio;
                 this.timeline.dialogueCues.set(objectID_, metadata);
                 clonesID_.forEach((cloneID) => {
@@ -196,6 +184,7 @@ export class TwoHunchbacksWorld extends FolkWorldBase {
         // Creates an image plane with a texture.
         const t = (metadata: { w: number, h: number }, objectID: string, ...clonesIDs: string[]) => {
             return (texture: THREE.Texture, metadata_ = metadata, objectID_ = objectID, clonesIDs_ = clonesIDs) => {
+                this.onAnyAssetLoaded();
                 // Create an image plane with the forest texture.
                 const geometry = new THREE.PlaneGeometry(metadata_.w, metadata_.h);
                 const material = new THREE.MeshPhongMaterial({ map: texture });
@@ -236,6 +225,40 @@ export class TwoHunchbacksWorld extends FolkWorldBase {
         textureLoader.load(
             "./content/t_forestGround.jpg",
             t({ w: 1000, h: 1000 }, "backdrop_ground"));
+    }
+
+    private beginGameForReal() {
+        if (!this.noLogo) {
+            // Start the fade up after a second of black.
+            this.screenCover.setColor("#000000");
+            this.screenCover.setOpacity(1);
+            setTimeout(() => {
+                this.screenCover.startAccumulatedFade("#000000", 1.0, "#000000", 0.0, this.fadeUpDuration);
+            }, 1000);
+
+            // Test the title card system. (after the fade in)
+            setTimeout(() => {
+                const titleCard = new TitleCard("./content/t_twoHunchbacks3704_titleCard.png");
+                titleCard.animate();
+            }, this.fadeUpDuration * 1000 + 2000);
+        }
+
+        // Go to the initial position.
+        setTimeout(() => { this.timeline.nextPoint(); }, 500);
+    }
+
+    private onAnyAssetLoaded() {
+        this.loadedAssetCount++;
+        console.log(`loaded ${this.loadedAssetCount} assets`);
+        
+        if (this.loadedAssetCount >= this.totalAssetCount) {
+            // Hide the loading screen when fully loaded.
+            // TODO: add button on loading screen to trigger slideUp and
+            // user action for audio too.
+            $("#loading").slideUp(500);
+            setTimeout(() => { $("#loading").remove(); }, 490);
+            this.beginGameForReal();
+        }
     }
 
     /**
