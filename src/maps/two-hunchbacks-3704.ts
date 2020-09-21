@@ -29,7 +29,7 @@ export class TwoHunchbacksWorld extends FolkWorldBase {
     private screenCover: ScreenCover;
 
     private loadedAssetCount: number = 0;
-    private readonly totalAssetCount: number = 12;
+    private readonly totalAssetCount: number = 14;
 
     public beginPlay() {
         super.beginPlay();
@@ -222,11 +222,15 @@ export class TwoHunchbacksWorld extends FolkWorldBase {
             "./content/sm_maleTwoHumps_pose_walk.fbx",
             sm("maleTwoHumps_pose_walk"));
         textureLoader.load(
+            "./content/t_3704_credits.png");
+        textureLoader.load(
             "./content/t_forestBlur.jpg",
             t({ w: 200, h: 300 }, "backdrop_forest", "backdrop_forest2", "backdrop_forest3", "backdrop_forest4"));
         textureLoader.load(
             "./content/t_forestGround.jpg",
             t({ w: 1000, h: 1000 }, "backdrop_ground"));
+        textureLoader.load(
+            "./content/t_twoHunchbacks3704_titleCard.png");
     }
 
     private beginGameForReal() {
