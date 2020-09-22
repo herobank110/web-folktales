@@ -27,6 +27,7 @@ export const getTimelineShots = (world: TwoHunchbacksWorld): TimelinePoint[] => 
                     const cue2 = world.getTimeline().audioCues.get("ambient_forest");
                     const player = world.audioMixer.playAudio(cue2, 5.5);
                     player.setLoop(true);
+                    world.ambientSound = player;
                 }
             },
             {
@@ -58,6 +59,7 @@ export const getTimelineShots = (world: TwoHunchbacksWorld): TimelinePoint[] => 
                     const cue2 = world.getTimeline().audioCues.get("bgm_primary");
                     const player = world.audioMixer.playAudio(cue2, 0.2);
                     player.setLoop(true);
+                    world.backgroundMusic = player;
                 }
             },
             {

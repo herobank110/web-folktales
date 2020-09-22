@@ -33,6 +33,9 @@ export class TwoHunchbacksWorld extends FolkWorldBase {
     private hasGameStarted: boolean = false;
     private isGameOver: boolean = false;
 
+    public backgroundMusic: THREE.Audio;
+    public ambientSound: THREE.Audio;
+
     public beginPlay() {
         super.beginPlay();
 
