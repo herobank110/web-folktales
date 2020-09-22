@@ -33,9 +33,12 @@ class DialoguePlayer {
     public play(cue: DialogueCue, autoHide: boolean = true) {
         // Play the audio in the active Audio object.
         this.audio.setBuffer(cue.audioCue);
+        this.audio.offset = 0;
         this.audio.setLoop(false);
         this.audio.setVolume(cue.volume || 1.0);
-        this.audio.play();
+        if (!this.audio.isPlaying) {
+            this.audio.play();
+        }
 
         // Show the subtitles too.
         this.subtitleManager.setText(cue.speechContent);
@@ -43,7 +46,7 @@ class DialoguePlayer {
         // Remove the subtitle after the delay.
         // It will actually just empty the box rather than hide it.
         // Time must be converted to milliseconds, plus a half second delay.
-        let delay = cue.audioCue.duration * 1000 + 500;
+        const delay = cue.audioCue?.duration * 1000 + 500 ?? 0;
         if (autoHide) {
             setTimeout(() => { this.subtitleManager.setText(""); }, delay);
         }

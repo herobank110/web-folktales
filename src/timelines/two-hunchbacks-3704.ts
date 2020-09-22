@@ -292,13 +292,7 @@ export const getTimelineShots = (world: TwoHunchbacksWorld): TimelinePoint[] => 
             {
                 actorID: "camera",
                 loc: new loc(62, 128, -245),
-                rot: new rot(0, 0.2),
-                onVisit: () => {
-                    setTimeout(() => {
-                        const credits = new TitleCard("./content/t_3704_credits.png");
-                        credits.animate();
-                    }, 3000);
-                }
+                rot: new rot(0, 0.2)
             },
             {
                 actorID: "maleTwoHumps_pose_walk",

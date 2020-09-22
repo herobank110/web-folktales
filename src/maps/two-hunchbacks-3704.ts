@@ -30,6 +30,8 @@ export class TwoHunchbacksWorld extends FolkWorldBase {
 
     private loadedAssetCount: number = 0;
     private readonly totalAssetCount: number = 24;
+    private hasGameStarted: boolean = false;
+    private isGameOver: boolean = false;
 
     public beginPlay() {
         super.beginPlay();
@@ -54,17 +56,19 @@ export class TwoHunchbacksWorld extends FolkWorldBase {
         // Create the timeline and add story points in shots.
         this.timeline = new Timeline();
         this.createShots();
-        this.timeline.onFinished = this.onTimelineFinished;
+        this.timeline.onFinished = () => this.onTimelineFinished();
 
         // Bind clicks to maneuver the timeline.
         let isFirstClick = true;
         const onNextShot = () => {
-            if (isFirstClick && !this.noLogo) {
-                // Perform dip to white on first click.
-                isFirstClick = false;
-                this.beginGameForReal();
-            } else {
-                this.timeline.nextPoint();
+            if (this.isFinishedLoading()) {
+                if (isFirstClick && !this.noLogo) {
+                    // Perform dip to white on first click.
+                    isFirstClick = false;
+                    this.beginGameForReal();
+                } else {
+                    this.timeline.nextPoint();
+                }
             }
         };
         GameplayStatics.gameEngine.inputMappings.bindAction(
@@ -301,6 +305,7 @@ export class TwoHunchbacksWorld extends FolkWorldBase {
         }
 
         // Go to the initial position.
+        this.hasGameStarted = true;
         this.timeline.nextPoint();
     }
 
@@ -317,7 +322,7 @@ export class TwoHunchbacksWorld extends FolkWorldBase {
         }
         const bar = $("#loading-progress .progress-bar");
 
-        if (this.loadedAssetCount >= this.totalAssetCount) {
+        if (this.isFinishedLoading()) {
             // Finalize the loading bar progress.
             setProgress(bar, 1);
 
@@ -339,11 +344,27 @@ export class TwoHunchbacksWorld extends FolkWorldBase {
         }
     }
 
+    private isFinishedLoading() {
+        return this.loadedAssetCount >= this.totalAssetCount;
+    }
+
     /**
      * Called when the user clicks past the end of the timeline.
      */
     public onTimelineFinished() {
-        throw new Error("timeline finished not implemented")
+        /*
+            <div id="loading" class="text-center bg-dark text-light d-flex fixed-top align-items-center justify-content-center"
+                style="width:100vw;height:100vh;z-index:9999!important;">
+                <div>
+                */
+
+        this.isGameOver = true;
+        this.audioMixer.playDialogue({ speechContent: "", audioCue: null });
+        this.screenCover.fadeToBlack(1);
+        setTimeout(() => {
+            const credits = new TitleCard("./content/t_3704_credits.png");
+            credits.animate();
+        }, 1500);
     }
 
     public getTimeline() { return this.timeline; }
