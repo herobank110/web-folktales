@@ -308,11 +308,14 @@ export class TwoHunchbacksWorld extends FolkWorldBase {
         this.loadedAssetCount++;
         console.log(`loaded ${this.loadedAssetCount} assets`);
 
-            function setProgress(jqProg: JQuery, valPercent: Readonly<number>) {
+        function setProgress(jqProg: JQuery, valPercent: Readonly<number>) {
+            // Only adjust to increase the progress!
+            if (parseInt(jqProg.attr("aria-valuenow")) < valPercent * 100) {
                 jqProg.css("width", `${valPercent * 100}%`)
                     .attr("aria-valuenow", valPercent * 100);
             }
-            const bar = $("#loading-progress .progress-bar"); 
+        }
+        const bar = $("#loading-progress .progress-bar");
 
         if (this.loadedAssetCount >= this.totalAssetCount) {
             // Finalize the loading bar progress.
