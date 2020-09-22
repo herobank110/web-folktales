@@ -131,7 +131,6 @@ export class TwoHunchbacksWorld extends FolkWorldBase {
      * Downloads and places content in the scene.
      * 
      * This will only ever be called once, on begin play.
-     * TODO: Add progress bar when each thing is loaded.
      */
     private downloadContent() {
         const sm = (objectID: string, ...cloneIDs: string[]) => {
@@ -352,19 +351,27 @@ export class TwoHunchbacksWorld extends FolkWorldBase {
      * Called when the user clicks past the end of the timeline.
      */
     public onTimelineFinished() {
-        /*
-            <div id="loading" class="text-center bg-dark text-light d-flex fixed-top align-items-center justify-content-center"
-                style="width:100vw;height:100vh;z-index:9999!important;">
-                <div>
-                */
+        if (this.isGameOver) {
+            return;
+        }
 
         this.isGameOver = true;
+
+        // Stop playing any dialogue.
         this.audioMixer.playDialogue({ speechContent: "", audioCue: null });
-        this.screenCover.fadeToBlack(1);
-        setTimeout(() => {
-            const credits = new TitleCard("./content/t_3704_credits.png");
-            credits.animate();
-        }, 1500);
+
+        // Load the credits image.
+        // TODO: add rolling credits component.
+        const imageUrl = "./content/t_3704_credits.png";
+        const creditsCover = $("<div>").attr("id", "abcd").addClass("text-center bg-dark text-light d-flex fixed-bottom align-items-center justify-content-center")
+            .css({ width: "100vw", height: "100vh", "z-index": "9999!important" }).append(
+                $("<div>")
+                    .css({ width: "100vw", height: "100vh" })
+                    .css("background", `no-repeat center/contain url('${imageUrl}')`));
+        $(document.body).append(creditsCover);
+        // Slide the credits up from the bottom of the screen (because fixed-bottom).
+        creditsCover.hide();
+        setTimeout(() => creditsCover.slideDown(1000), 10);
     }
 
     public getTimeline() { return this.timeline; }
