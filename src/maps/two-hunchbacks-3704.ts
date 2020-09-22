@@ -308,7 +308,15 @@ export class TwoHunchbacksWorld extends FolkWorldBase {
         this.loadedAssetCount++;
         console.log(`loaded ${this.loadedAssetCount} assets`);
 
+            function setProgress(jqProg: JQuery, valPercent: Readonly<number>) {
+                jqProg.css("width", `${valPercent * 100}%`)
+                    .attr("aria-valuenow", valPercent * 100);
+            }
+            const bar = $("#loading-progress .progress-bar"); 
+
         if (this.loadedAssetCount >= this.totalAssetCount) {
+            // Finalize the loading bar progress.
+            setProgress(bar, 1);
 
             // Hide the loading screen when fully loaded.
             function isTouchEnabled() {
@@ -322,6 +330,9 @@ export class TwoHunchbacksWorld extends FolkWorldBase {
             );
             $("#loading-progress").fadeOut(500);
             setTimeout(() => $("#start-game").fadeIn(), 500);
+        } else {
+            // Update the progress bar percentage.
+            setProgress(bar, this.loadedAssetCount / this.totalAssetCount);
         }
     }
 
