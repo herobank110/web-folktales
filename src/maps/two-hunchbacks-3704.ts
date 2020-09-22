@@ -71,9 +71,6 @@ export class TwoHunchbacksWorld extends FolkWorldBase {
             "NextShot",
             EInputEvent.PRESSED,
             () => { onNextShot(); });
-
-        // Also add touch support.
-        document.body.addEventListener("touchend", () => { onNextShot(); });
     }
 
     /**
