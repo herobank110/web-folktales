@@ -4,7 +4,7 @@ import { TitleCard } from "../changeling-1102/titleCard.js";
 import { FolkWorldBase, makeTick } from "../core/world.js";
 import { FBXLoader } from "/folktales/include/three/examples/jsm/loaders/FBXLoader.js";
 import { Timeline } from "../changeling-1102/timeline.js";
-import { GameplayStatics, EInputEvent } from "/folktales/include/factorygame/factorygame.js";
+import { GameplayStatics, EInputEvent, MathStat } from "/folktales/include/factorygame/factorygame.js";
 import { getTimelineShots } from "../timelines/two-hunchbacks-3704.js";
 import { visitFunctionBody } from "typescript";
 var THREE = window["THREE"];
@@ -35,6 +35,7 @@ export class TwoHunchbacksWorld extends FolkWorldBase {
 
     public backgroundMusic: THREE.Audio;
     public ambientSound: THREE.Audio;
+    private bgmLerpTime: number;
 
     public beginPlay() {
         super.beginPlay();
@@ -362,6 +363,21 @@ export class TwoHunchbacksWorld extends FolkWorldBase {
 
         // Stop playing any dialogue.
         this.audioMixer.playDialogue({ speechContent: "", audioCue: null });
+        // Make the bgm louder and the ambience silent in 1 second.
+        this.bgmLerpTime = 0;
+        makeTick((deltaTime) => {
+            // This is not the most efficient way to do this!
+            this.bgmLerpTime += deltaTime;
+            const bias = this.bgmLerpTime / 1;
+            if (bias <= 1) {
+                this.backgroundMusic?.setVolume(MathStat.lerp(0.2, 0.6, bias));
+                this.ambientSound?.setVolume(MathStat.lerp(5.5, 0, (1 - bias)));
+            } else {
+                if (this.ambientSound?.isPlaying){
+                    this.ambientSound?.stop();
+                }
+            }
+        });
 
         // Load the credits image.
         // TODO: add rolling credits component.
