@@ -6,7 +6,6 @@ import { FBXLoader } from "/folktales/include/three/examples/jsm/loaders/FBXLoad
 import { Timeline } from "../changeling-1102/timeline.js";
 import { GameplayStatics, EInputEvent, MathStat } from "/folktales/include/factorygame/factorygame.js";
 import { getTimelineShots } from "../timelines/two-hunchbacks-3704.js";
-import { visitFunctionBody } from "typescript";
 var THREE = window["THREE"];
 
 /**
