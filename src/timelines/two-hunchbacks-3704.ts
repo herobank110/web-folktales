@@ -186,7 +186,11 @@ export const getTimelineShots = (world: TwoHunchbacksWorld): TimelinePoint[] => 
             {
                 actorID: "camera",
                 loc: new loc(-61, 55, -254),
-                rot: new rot(0, -0.3)
+                rot: new rot(0, -0.3),
+                onVisit: () => {
+                    const cue = world.getTimeline().audioCues.get("sfx_woodSaw");
+                    world.audioMixer.playAudio(cue, 7.8);
+                }
             },
             {
                 // TODO Replace with sat at rock pose (or sat on ground)

@@ -29,7 +29,7 @@ export class TwoHunchbacksWorld extends FolkWorldBase {
     private screenCover: ScreenCover;
 
     private loadedAssetCount: number = 0;
-    private readonly totalAssetCount: number = 24;
+    private readonly totalAssetCount: number = 25;
     private hasGameStarted: boolean = false;
     private isGameOver: boolean = false;
 
@@ -257,6 +257,9 @@ export class TwoHunchbacksWorld extends FolkWorldBase {
             "./content/s_silence.mp3",
             d({ speechContent: "The hunchback came down, and the little old women grabbed his brother's hump hanging on a tree limb and stuck it on his chest. “That’s the punishment you deserve!” So the poor hunchback went home with two humps instead of one." },
                 "dlg_shot10"));
+        audioLoader.load(
+            "./content/s_woodSaw.mp3",
+            s("sfx_woodSaw"));
         fbxLoader.load(
             "./content/sm_blockTree.fbx",
             sm("tree"));
@@ -373,7 +376,7 @@ export class TwoHunchbacksWorld extends FolkWorldBase {
                 this.backgroundMusic?.setVolume(MathStat.lerp(0.2, 0.6, bias));
                 this.ambientSound?.setVolume(MathStat.lerp(5.5, 0, (1 - bias)));
             } else {
-                if (this.ambientSound?.isPlaying){
+                if (this.ambientSound?.isPlaying) {
                     this.ambientSound?.stop();
                 }
             }
