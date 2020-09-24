@@ -217,43 +217,43 @@ export class TwoHunchbacksWorld extends FolkWorldBase {
             d({ speechContent: "Headphones for best experience" },
                 "info_headphones"));
         audioLoader.load(
-            "./content/s_silence.mp3",
+            "./content/dialogue/s_twoHunchbacks3704_1.mp3",
             d({ speechContent: "There were two hunchbacks who were brothers. The younger hunchback said, “I’m going out and make a fortune.”" },
                 "dlg_shot1"));
         audioLoader.load(
-            "./content/s_silence.mp3",
+            "./content/dialogue/s_twoHunchbacks3704_2.mp3",
             d({ speechContent: "He set out on foot. After walking for miles and miles he lost his way in the woods. “What will I do now? What if assassins appeared … I’d better climb this tree.”" },
                 "dlg_shot2"));
         audioLoader.load(
-            "./content/s_silence.mp3",
+            "./content/dialogue/s_twoHunchbacks3704_3.mp3",
             d({ speechContent: "Once he was up the tree he heard a noise. “There they are, help!” Instead of assassins, out of a hole in the ground climbed a little old woman, then another and another, followed by a whole line of little old women, one right behind the other, who all danced around the tree singing: “Saturday and Sunday! Saturday and Sunday!” Round and round they went, singing over and over: “Saturday and Sunday!” From his perch in the treetop, the hunchback sang: “And Monday!”" },
                 "dlg_shot3"));
         audioLoader.load(
-            "./content/s_silence.mp3",
+            "./content/dialogue/s_twoHunchbacks3704_4.mp3",
             d({ speechContent: "The little old women became dead silent, looked up, and one of them said, “Oh, the good soul has given us that lovely line! We never would have thought of it by ourselves!” Overjoyed, they resumed their dance around the tree, singing all the while: “Saturday, Sunday And Monday! Saturday, Sunday, And Monday!”" },
                 "dlg_shot4"));
         audioLoader.load(
-            "./content/s_silence.mp3",
+            "./content/dialogue/s_twoHunchbacks3704_5.mp3",
             d({ speechContent: "After a few rounds they spied the hunchback up in the tree. He trembled for his life. “For goodness’ sakes, little old souls, don’t kill me. That line just slipped out. I meant no harm, I swear.” “Well come down and let us reward you. Ask any favor at all, and we will grant it.”" },
                 "dlg_shot5"));
         audioLoader.load(
-            "./content/s_silence.mp3",
+            "./content/dialogue/s_twoHunchbacks3704_6.mp3",
             d({ speechContent: "The hunchback came down the tree. “Go on, ask!” “I'm a poor man, what do you expect me to ask? What I'd really like would be for this hump to come off my back, since the boys all tease me about it.” “All right, the hump will be removed.” The old women took a butter saw, sawed off the hump, and rubbed his back with salve, so that it was now sound and scarless. The hump they hung on the tree." },
                 "dlg_shot6"));
         audioLoader.load(
-            "./content/s_silence.mp3",
+            "./content/dialogue/s_twoHunchbacks3704_7.mp3",
             d({ speechContent: "The hunchback who was no longer a hunchback went home, and nobody recognized him. “It can’t be you!” said his brother. “It most certainly is me. See how handsome I’ve become?” “How did you do it?” “Just listen.” He told him about the tree, the little old women, and their song. “I’m going to them, too,” announced the brother." },
                 "dlg_shot7"));
         audioLoader.load(
-            "./content/s_silence.mp3",
+            "./content/dialogue/s_twoHunchbacks3704_8.mp3",
             d({ speechContent: "So he set out, entered the same woods, and climbed the same tree. At the same time as last, here came the little old women out of their hole singing: “Saturday, Sunday, And Monday! Saturday, Sunday, And Monday!” From the tree the hunchback sang: “And Tuesday!” The old women began singing: “Saturday, Sunday, And Monday! And Tuesday!”" },
                 "dlg_shot8"));
         audioLoader.load(
-            "./content/s_silence.mp3",
+            "./content/dialogue/s_twoHunchbacks3704_9.mp3",
             d({ speechContent: "But the song no longer suited them, its rhythm had been marred. They looked up, furious. “Who is this criminal, this assassin? We were singing so well and he had to come along and ruin everything! Now we’ve lost our song!” They finally saw him up in the tree. “Come down, come down!” “I will not!” said the hunchback, scared to death. “You will kill me!” “No we won't, come on down!”" },
                 "dlg_shot9"));
         audioLoader.load(
-            "./content/s_silence.mp3",
+            "./content/dialogue/s_twoHunchbacks3704_10.mp3",
             d({ speechContent: "The hunchback came down, and the little old women grabbed his brother's hump hanging on a tree limb and stuck it on his chest. “That’s the punishment you deserve!” So the poor hunchback went home with two humps instead of one." },
                 "dlg_shot10"));
         audioLoader.load(
