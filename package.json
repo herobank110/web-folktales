@@ -4,6 +4,7 @@
   "description": "Web game for folktales",
   "main": "index.js",
   "scripts": {
+    "start": "npx tsc && http-server public -s",
     "watch": "concurrently \"npx tsc -w\" \"http-server public -s\""
   },
   "repository": {
