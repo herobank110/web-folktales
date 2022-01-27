@@ -20,7 +20,7 @@
   "dependencies": {
     "@types/jquery": "2.0.34",
     "factorygame": "0.1.11",
-    "three": "0.125.0",
+    "three": "0.137.0",
     "typescript": "3.8.3"
   },
   "devDependencies": {
